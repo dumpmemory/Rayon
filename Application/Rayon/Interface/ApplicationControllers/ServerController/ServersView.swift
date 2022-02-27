@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/9.
 //
 
+import RayonModule
 import SwiftUI
 
 struct ServersView: View {
@@ -13,18 +14,18 @@ struct ServersView: View {
     @State var searchText: String = ""
     @State var openAddSheet: Bool = false
 
-    @State var selection: Set<RDRemoteMachine.ID> = []
-    @State var hoverSelection: RDRemoteMachine.ID? = nil
+    @State var selection: Set<RDMachine.ID> = []
+    @State var hoverSelection: RDMachine.ID? = nil
 
     var itemSpacing: Double { UIBridge.itemSpacing }
 
-    func sectionFor(machines: [RDRemoteMachine]) -> [String] {
+    func sectionFor(machines: [RDMachine]) -> [String] {
         [String](Set<String>(
             machines.map(\.group)
         )).sorted()
     }
 
-    func searchResultFor(section: String) -> [RDRemoteMachine] {
+    func searchResultFor(section: String) -> [RDMachine] {
         if searchText.count == 0 {
             return store.remoteMachines
                 .machines

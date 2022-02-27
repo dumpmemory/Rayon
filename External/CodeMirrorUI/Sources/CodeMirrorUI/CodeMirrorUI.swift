@@ -93,7 +93,7 @@ class CodeEditorCore: CodeEditor {
             while !(self?.associatedWebDelegate.navigateCompleted ?? true) { usleep(1000) }
             DispatchQueue.main.async { [weak self] in
                 self?.associatedWebView.evaluateJavaScript(script) { _, error in
-                    // TODO: FIXME: ****
+                    // TODO: FIXME: FUCK
                     if let error = error {
                         print(error.localizedDescription)
                         print(script)

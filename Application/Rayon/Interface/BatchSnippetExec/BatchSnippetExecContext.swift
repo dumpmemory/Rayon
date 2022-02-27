@@ -7,15 +7,16 @@
 
 import Combine
 import NSRemoteShell
+import RayonModule
 
 class BatchSnippetExecContext: ObservableObject {
     let snippet: RDSnippet
-    let machines: [RDRemoteMachine.ID]
-    let names: [RDRemoteMachine.ID: String]
-    init(snippet: RDSnippet, machines: [RDRemoteMachine.ID]) {
+    let machines: [RDMachine.ID]
+    let names: [RDMachine.ID: String]
+    init(snippet: RDSnippet, machines: [RDMachine.ID]) {
         self.snippet = snippet
         self.machines = machines
-        var buildNames: [RDRemoteMachine.ID: String] = [:]
+        var buildNames: [RDMachine.ID: String] = [:]
         for machine in machines {
             // run this in main thread
             let object = RayonStore.shared.remoteMachines[machine]
@@ -50,11 +51,11 @@ class BatchSnippetExecContext: ObservableObject {
     }
 
     private var completed: Bool = false
-    private var shellObjects: [RDRemoteMachine.ID: NSRemoteShell] = [:]
-    private var requiredIdentities: [RDRemoteMachine.ID: RDIdentity] = [:]
-    private var shellContinue: [RDRemoteMachine.ID: Bool] = [:]
-    private var receivedBuffer: [RDRemoteMachine.ID: String] = [:]
-    private var completedMachines: [RDRemoteMachine.ID] = []
+    private var shellObjects: [RDMachine.ID: NSRemoteShell] = [:]
+    private var requiredIdentities: [RDMachine.ID: RDIdentity] = [:]
+    private var shellContinue: [RDMachine.ID: Bool] = [:]
+    private var receivedBuffer: [RDMachine.ID: String] = [:]
+    private var completedMachines: [RDMachine.ID] = []
     private var bufferForTermId: [UUID: String] = [:]
 
     var safeAccessCompleted: Bool {
@@ -64,35 +65,35 @@ class BatchSnippetExecContext: ObservableObject {
         return value
     }
 
-    var safeAccessShellObjects: [RDRemoteMachine.ID: NSRemoteShell] {
+    var safeAccessShellObjects: [RDMachine.ID: NSRemoteShell] {
         accessLock.lock()
         let value = shellObjects
         accessLock.unlock()
         return value
     }
 
-    var safeAccessRequiredIdentities: [RDRemoteMachine.ID: RDIdentity] {
+    var safeAccessRequiredIdentities: [RDMachine.ID: RDIdentity] {
         accessLock.lock()
         let value = requiredIdentities
         accessLock.unlock()
         return value
     }
 
-    var safeAccessShellContinue: [RDRemoteMachine.ID: Bool] {
+    var safeAccessShellContinue: [RDMachine.ID: Bool] {
         accessLock.lock()
         let value = shellContinue
         accessLock.unlock()
         return value
     }
 
-    var safeAccessReceivedBuffer: [RDRemoteMachine.ID: String] {
+    var safeAccessReceivedBuffer: [RDMachine.ID: String] {
         accessLock.lock()
         let value = receivedBuffer
         accessLock.unlock()
         return value
     }
 
-    var safeAccessCompletedMachines: [RDRemoteMachine.ID] {
+    var safeAccessCompletedMachines: [RDMachine.ID] {
         accessLock.lock()
         let value = completedMachines
         accessLock.unlock()
@@ -142,7 +143,7 @@ class BatchSnippetExecContext: ObservableObject {
         return write
     }
 
-    func beginExec(on machine: RDRemoteMachine.ID) {
+    func beginExec(on machine: RDMachine.ID) {
         defer {
             debugPrint("execution subroutine completed for machine: \(machine)")
             safeAccess {

@@ -5,10 +5,11 @@
 //  Created by Lakr Aream on 2022/2/10.
 //
 
+import RayonModule
 import SwiftUI
 
 struct RemoteMachineView: View {
-    let machine: RDRemoteMachine.ID
+    let machine: RDMachine.ID
 
     @EnvironmentObject var store: RayonStore
 
@@ -133,7 +134,7 @@ struct RemoteMachineView: View {
 }
 
 struct RemoteMachineFloatingPanelView: View {
-    let machine: RDRemoteMachine.ID
+    let machine: RDMachine.ID
 
     @EnvironmentObject var store: RayonStore
 
@@ -173,7 +174,7 @@ struct RemoteMachineFloatingPanelView: View {
 
     func beingConnect() {
         var lookup = false
-        for session in store.remoteSessions where session.context.remoteMachine.id == machine {
+        for session in store.remoteSessions where session.context.machine.id == machine {
             lookup = true
             break
         }

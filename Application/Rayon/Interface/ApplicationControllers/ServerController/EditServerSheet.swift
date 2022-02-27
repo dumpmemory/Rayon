@@ -5,10 +5,11 @@
 //  Created by Lakr Aream on 2022/2/10.
 //
 
+import RayonModule
 import SwiftUI
 
 struct EditServerSheetView: View {
-    let inEditWith: RDRemoteMachine.ID
+    let inEditWith: RDMachine.ID
 
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var store: RayonStore

@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/13.
 //
 
+import RayonModule
 import SwiftUI
 
 struct AgreementView: View {

@@ -7,44 +7,39 @@
 
 import Foundation
 
-#if os(iOS)
-    import UIKit
-#endif
+import AppKit
 
-#if os(macOS)
-    import AppKit
-#endif
+/// Not actually a Actor but I like it
+/// - Parameter run: the job to be fired on main thread
+func mainActor(delay: Double = 0, run: @escaping () -> Void) {
+    guard delay == 0, Thread.isMainThread else {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            run()
+        }
+        return
+    }
+    run()
+}
 
-class UIBridge {
+enum UIBridge {
     static let itemSpacing: Double = 10
 
     static func sendPasteboard(str: String) {
         debugPrint("\(#function) \(str)")
-        #if os(macOS)
-            let pasteboard = NSPasteboard.general
-            pasteboard.declareTypes([.string], owner: nil)
-            pasteboard.setString(str, forType: .string)
-        #endif
-        #if os(iOS)
-            UIPasteboard.general.string = str
-        #endif
+
+        let pasteboard = NSPasteboard.general
+        pasteboard.declareTypes([.string], owner: nil)
+        pasteboard.setString(str, forType: .string)
     }
 
     static func open(url: URL) {
-        #if os(macOS)
-            NSWorkspace.shared.open(url)
-        #endif
-        #if os(iOS)
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        #endif
+        NSWorkspace.shared.open(url)
     }
 
     static func toggleSidebar() {
-        #if os(macOS)
-            NSApp.keyWindow?.firstResponder?.tryToPerform(
-                #selector(NSSplitViewController.toggleSidebar(_:)),
-                with: nil
-            )
-        #endif
+        NSApp.keyWindow?.firstResponder?.tryToPerform(
+            #selector(NSSplitViewController.toggleSidebar(_:)),
+            with: nil
+        )
     }
 }

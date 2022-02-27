@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/8.
 //
 
+import RayonModule
 import SwiftUI
 
 private var isBootstrapCompleted = false
@@ -72,15 +73,13 @@ struct MainView: View {
             }
         )
         .toolbar {
-            #if os(macOS)
-                ToolbarItem(placement: .navigation) {
-                    Button {
-                        UIBridge.toggleSidebar()
-                    } label: {
-                        Label("Toggle Sidebar", systemImage: "sidebar.leading")
-                    }
+            ToolbarItem(placement: .navigation) {
+                Button {
+                    UIBridge.toggleSidebar()
+                } label: {
+                    Label("Toggle Sidebar", systemImage: "sidebar.leading")
                 }
-            #endif
+            }
         }
     }
 

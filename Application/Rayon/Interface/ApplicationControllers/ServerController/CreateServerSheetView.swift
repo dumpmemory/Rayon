@@ -6,6 +6,7 @@
 //
 
 import NSRemoteShell
+import RayonModule
 import SwiftUI
 
 struct CreateServerView: View {

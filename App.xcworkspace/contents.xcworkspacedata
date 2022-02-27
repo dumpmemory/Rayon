@@ -5,6 +5,9 @@
       location = "group:Application/Rayon/Rayon.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Foundation/RayonModule">
+   </FileRef>
+   <FileRef
       location = "group:External/CodeMirrorUI">
    </FileRef>
    <FileRef
@@ -21,5 +24,8 @@
    </FileRef>
    <FileRef
       location = "group:External/XTerminalUI">
+   </FileRef>
+   <FileRef
+      location = "group:Foundation/XMLCoder">
    </FileRef>
 </Workspace>

@@ -6,6 +6,7 @@
 //
 
 import NSRemoteShell
+import RayonModule
 import SwiftUI
 import XTerminalUI
 
@@ -15,7 +16,7 @@ struct SessionTerminalView: View {
     @StateObject
     var windowObserver: WindowObserver = .init()
 
-    @EnvironmentObject var context: RDSessionAssoicatedContext
+    @EnvironmentObject var context: RDSession.Context
 
     @State var terminalSize = CGSize(width: 0, height: 0)
     @State var dataBuffer = ""
@@ -25,7 +26,7 @@ struct SessionTerminalView: View {
     var body: some View {
         GeometryReader { r in
             TerminalManager.shared
-                .terminalSession(for: token)
+                .loadTerminal(for: token)
                 .coreUI
                 .setupBufferChain {
                     dataBuffer.append($0)
@@ -34,10 +35,10 @@ struct SessionTerminalView: View {
                 .setupTitleChain {
                     title = $0
                     TerminalManager.shared
-                        .terminalSession(for: token)
+                        .loadTerminal(for: token)
                         .title = $0
                     setWindowTitle()
-                    context.adjust(title: $0, for: token)
+                    context.adjustTerminal(title: $0, for: token)
                 }
                 .frame(width: r.size.width, height: r.size.height)
                 .onChange(of: r.size) { _ in updateTerminalSize() }
@@ -47,7 +48,7 @@ struct SessionTerminalView: View {
             recoverViewStatus()
         }
         .onDisappear {
-            context.adjust(title: title, for: token)
+            context.adjustTerminal(title: title, for: token)
         }
         .background(
             HostingWindowFinder { [weak windowObserver] window in
@@ -75,7 +76,7 @@ struct SessionTerminalView: View {
 
     func updateTerminalSize() {
         let coreUI = TerminalManager.shared
-            .terminalSession(for: token)
+            .loadTerminal(for: token)
             .coreUI
         let origSize = terminalSize
         DispatchQueue.global().async {
@@ -109,7 +110,7 @@ struct SessionTerminalView: View {
 
     func recoverViewStatus() {
         let core = TerminalManager.shared
-            .terminalSession(for: token)
+            .loadTerminal(for: token)
         title = core.title
         core.rebindChain {
             updateTerminalSize()
@@ -119,7 +120,7 @@ struct SessionTerminalView: View {
         } output: { output in
             mainActor {
                 TerminalManager.shared
-                    .terminalSession(for: token)
+                    .loadTerminal(for: token)
                     .coreUI
                     .write(output)
             }

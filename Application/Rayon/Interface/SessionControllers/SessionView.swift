@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/10.
 //
 
+import RayonModule
 import SwiftUI
 
 struct SessionView: View {

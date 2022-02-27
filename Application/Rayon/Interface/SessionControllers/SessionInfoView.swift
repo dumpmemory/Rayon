@@ -5,10 +5,11 @@
 //  Created by Lakr Aream on 2022/2/11.
 //
 
+import RayonModule
 import SwiftUI
 
 struct SessionInfoView: View {
-    @EnvironmentObject var context: RDSessionAssoicatedContext
+    @EnvironmentObject var context: RDSession.Context
 
     @StateObject
     var windowObserver: WindowObserver = .init()
@@ -66,7 +67,7 @@ struct SessionInfoView: View {
 
     func setWindowTitle() {
         windowObserver.window?.title = "Machine Info"
-        windowObserver.window?.subtitle = "\(context.remoteIdentity.username)@\(context.remoteMachine.remoteAddress)"
+        windowObserver.window?.subtitle = "\(context.identity.username)@\(context.machine.remoteAddress)"
     }
 
     func clearWindowTitle() {

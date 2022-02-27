@@ -6,6 +6,7 @@
 //
 
 import CodeMirrorUI
+import RayonModule
 import SwiftUI
 
 struct SnippetsView: View {

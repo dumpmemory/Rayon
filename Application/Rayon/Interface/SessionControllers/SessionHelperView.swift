@@ -6,10 +6,11 @@
 //
 
 import Colorful
+import RayonModule
 import SwiftUI
 
 struct SessionPlaceholderView: View {
-    @EnvironmentObject var context: RDSessionAssoicatedContext
+    @EnvironmentObject var context: RDSession.Context
 
     @StateObject
     var windowObserver: WindowObserver = .init()
@@ -50,7 +51,7 @@ struct SessionPlaceholderView: View {
 
     func setWindowTitle() {
         windowObserver.window?.title = "Rayon Session"
-        windowObserver.window?.subtitle = "\(context.remoteIdentity.username)@\(context.remoteMachine.remoteAddress)"
+        windowObserver.window?.subtitle = "\(context.identity.username)@\(context.machine.remoteAddress)"
     }
 
     func clearWindowTitle() {

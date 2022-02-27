@@ -5,22 +5,23 @@
 //  Created by Lakr Aream on 2022/2/11.
 //
 
+import RayonModule
 import SwiftUI
 
 private struct _TerminalTitleView: View {
-    @StateObject var info: RDSessionAssoicatedContext.TerminalSessionInfo
+    @StateObject var info: RDSession.Context.TSInfo
 
     var body: some View {
         Label(info.title.count > 0 ? info.title : "Untitled Terminal",
               systemImage: TerminalManager
                   .shared
-                  .terminalSession(for: info.id)
+                  .loadTerminal(for: info.id)
                   .completed ? "xmark.square.fill" : "terminal.fill")
     }
 }
 
 struct SessionSidebarView: View {
-    @EnvironmentObject var context: RDSessionAssoicatedContext
+    @EnvironmentObject var context: RDSession.Context
 
     @State var openProgressSheet: Bool = false
     @State var selection: UUID? = nil
@@ -46,11 +47,11 @@ struct SessionSidebarView: View {
                 .expended()
             }
             Section("Terminals") {
-                ForEach(context.terminalSessions, id: \.self) { id in
+                ForEach(context.terminals, id: \.self) { id in
                     NavigationLink {
                         SessionTerminalView(token: id)
                     } label: {
-                        _TerminalTitleView(info: context.terminalSessionInfos[id] ?? .init())
+                        _TerminalTitleView(info: context.terminalInfo[id] ?? .init())
                     }
                     .tag(id)
                     .contextMenu {
@@ -58,7 +59,7 @@ struct SessionSidebarView: View {
                             func closeChannel() {
                                 context.terminateTermSession(for: id)
                             }
-                            if context.terminalChannelAlive(for: id) {
+                            if context.terminalChannelIsAlive(for: id) {
                                 UIBridge.requiresConfirmation(
                                     message: "Attempt to close a running channel"
                                 ) { confirmed in
@@ -95,7 +96,7 @@ struct SessionSidebarView: View {
     }
 
     func createTermianlSession() {
-        context.createSession()
+        context.createTerminal()
     }
 
     func closeConnection() {
@@ -103,7 +104,7 @@ struct SessionSidebarView: View {
             message: "This will close all sub-channel associated to this session"
         ) { confirmed in
             if confirmed {
-                RayonStore.shared.destorySession(with: context.sessionID)
+                RayonStore.shared.terminateSession(with: context.id)
             }
         }
     }

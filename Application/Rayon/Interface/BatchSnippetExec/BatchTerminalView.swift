@@ -5,11 +5,12 @@
 //  Created by Lakr Aream on 2022/2/13.
 //
 
+import RayonModule
 import SwiftUI
 import XTerminalUI
 
 struct BatchTerminalView: View {
-    let machine: RDRemoteMachine.ID
+    let machine: RDMachine.ID
 
     @EnvironmentObject var context: BatchSnippetExecContext
 

@@ -6,6 +6,7 @@
 //
 
 import CodeMirrorUI
+import RayonModule
 import SwiftUI
 
 struct SnippetView: View {
@@ -138,7 +139,7 @@ struct SnippetFloatingPanelView: View {
         }
     }
 
-    func beginExecutionOn(machines: [RDRemoteMachine.ID]) {
+    func beginExecutionOn(machines: [RDMachine.ID]) {
         debugPrint("will execute on \(machines)")
     }
 

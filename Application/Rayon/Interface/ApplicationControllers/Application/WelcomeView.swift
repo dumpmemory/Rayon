@@ -7,6 +7,7 @@
 
 import Colorful
 import NSRemoteShell
+import RayonModule
 import SwiftUI
 
 struct WelcomeView: View {

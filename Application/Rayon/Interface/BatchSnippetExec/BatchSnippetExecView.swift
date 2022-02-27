@@ -6,17 +6,18 @@
 //
 
 import NSRemoteShell
+import RayonModule
 import SwiftUI
 
 struct BatchSnippetExecView: View {
-    internal init(snippet: RDSnippet, machines: [RDRemoteMachine.ID]) {
+    internal init(snippet: RDSnippet, machines: [RDMachine.ID]) {
         self.snippet = snippet
         self.machines = machines
         _context = .init(wrappedValue: .init(snippet: snippet, machines: machines))
     }
 
     let snippet: RDSnippet
-    let machines: [RDRemoteMachine.ID]
+    let machines: [RDMachine.ID]
 
     @StateObject
     var windowObserver: WindowObserver = .init()

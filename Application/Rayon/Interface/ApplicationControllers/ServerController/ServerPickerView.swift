@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/12.
 //
 
+import RayonModule
 import SwiftUI
 
 struct ServerPickerView: View {
@@ -67,7 +68,7 @@ struct ServerPickerView: View {
         .requiresSheetFrame()
     }
 
-    func trySelect(with machine: RDRemoteMachine.ID) {
+    func trySelect(with machine: RDMachine.ID) {
         if currentSelection.contains(machine) {
             currentSelection.remove(machine)
         } else {
@@ -82,7 +83,7 @@ struct ServerPickerView: View {
     struct ServerPreviewBanner: View {
         @EnvironmentObject var store: RayonStore
 
-        let machine: RDRemoteMachine.ID
+        let machine: RDMachine.ID
 
         var body: some View {
             VStack(alignment: .leading, spacing: 4) {

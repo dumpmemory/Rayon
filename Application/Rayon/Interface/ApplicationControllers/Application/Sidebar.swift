@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/8.
 //
 
+import RayonModule
 import SwiftUI
 
 struct SidebarView: View {
@@ -65,34 +66,30 @@ struct SidebarView: View {
                     .expended()
                 } else {
                     ForEach(store.remoteSessions) { session in
-                        #if os(macOS)
-                            Button {
-                                store.requestSessionInterface(session: session.id)
-                            } label: {
-                                HStack {
-                                    Label(session.context.remoteMachine.name, systemImage: "play.fill")
-                                    Spacer()
-                                }
-                                .background(Color.accentColor.opacity(0.001))
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .contextMenu {
-                                Button {
-                                    UIBridge.requiresConfirmation(
-                                        message: "This will close all sub-channel associated to this session"
-                                    ) { confirmed in
-                                        if confirmed {
-                                            store.destorySession(with: session.id)
-                                        }
-                                    }
-                                } label: {
-                                    Label("Close Connection", image: "trash")
-                                }
-                            }
-                        #endif
-                        #if os(iOS)
 
-                        #endif
+                        Button {
+                            store.requestSessionInterface(session: session.id)
+                        } label: {
+                            HStack {
+                                Label(session.context.machine.name, systemImage: "play.fill")
+                                Spacer()
+                            }
+                            .background(Color.accentColor.opacity(0.001))
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .contextMenu {
+                            Button {
+                                UIBridge.requiresConfirmation(
+                                    message: "This will close all sub-channel associated to this session"
+                                ) { confirmed in
+                                    if confirmed {
+                                        store.terminateSession(with: session.id)
+                                    }
+                                }
+                            } label: {
+                                Label("Close Connection", image: "trash")
+                            }
+                        }
                     }
                     Button {
                         UIBridge.requiresConfirmation(
@@ -102,7 +99,7 @@ struct SidebarView: View {
                                     return
                                 }
                                 for session in store.remoteSessions {
-                                    store.destorySession(with: session.id)
+                                    store.terminateSession(with: session.id)
                                 }
                             }
                     } label: {
@@ -127,7 +124,7 @@ struct SidebarView: View {
                 .sheet(isPresented: $openServerSelector, onDismiss: nil, content: {
                     ServerPickerView(onComplete: { machines in
                         for machine in machines {
-                            store.beginSessionStartup(for: machine, autoOpen: false)
+                            store.beginSessionStartup(for: machine)
                         }
                     }, allowSelectMany: true)
                 })
@@ -194,7 +191,9 @@ struct SidebarView: View {
                         }
                         sem.wait()
                         return pickedIdentity
-                    }, saveSessionOverrideControl: false, autoOpen: true)
+                    }, saveSessionOverrideControl: false) { sessionId in
+                        RayonStore.shared.requestSessionInterface(session: sessionId)
+                    }
                 }
             }
         } label: {
@@ -230,7 +229,7 @@ struct SidebarView: View {
         .expended()
     }
 
-    func recentButton(for machine: RDRemoteMachine.ID) -> some View {
+    func recentButton(for machine: RDMachine.ID) -> some View {
         Group {
             if store.remoteMachines[machine].isNotPlaceholder() {
                 Button {

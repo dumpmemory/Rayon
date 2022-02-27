@@ -11,7 +11,7 @@ public struct ColorfulView: View {
     // MARK: - PROPERTY
 
     @State var randomization: [PointRandomization]
-    @State var size: CGSize = CGSize()
+    @State var size: CGSize = .init()
 
     private let colorElements: [Color]
     private let animated: Bool

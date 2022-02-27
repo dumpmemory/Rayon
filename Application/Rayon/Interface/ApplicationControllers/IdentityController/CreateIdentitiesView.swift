@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/9.
 //
 
+import RayonModule
 import SwiftUI
 
 struct CreateIdentitiesView: View {
@@ -186,27 +187,23 @@ struct CreateIdentitiesView: View {
     }
 
     func openFilePicker(onComplete: @escaping (Data?) -> Void) {
-        #if os(macOS)
-            let panel = NSOpenPanel()
-            panel.directoryURL = URL(fileURLWithPath: "\(NSHomeDirectory())/.ssh/")
-            panel.canChooseFiles = true
-            panel.allowsMultipleSelection = false
-            panel.canChooseDirectories = false
-            func handle(respnse: NSApplication.ModalResponse) {
-                if respnse == .OK, let url = panel.url {
-                    // panel animation
-                    mainActor(delay: 0.5) {
-                        onComplete(try? Data(contentsOf: url))
-                    }
+        let panel = NSOpenPanel()
+        panel.directoryURL = URL(fileURLWithPath: "\(NSHomeDirectory())/.ssh/")
+        panel.canChooseFiles = true
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        func handle(respnse: NSApplication.ModalResponse) {
+            if respnse == .OK, let url = panel.url {
+                // panel animation
+                mainActor(delay: 0.5) {
+                    onComplete(try? Data(contentsOf: url))
                 }
             }
-            if let window = NSApplication.shared.keyWindow {
-                panel.beginSheetModal(for: window) { handle(respnse: $0) }
-            } else {
-                panel.begin { handle(respnse: $0) }
-            }
-        #else
-            return nil
-        #endif
+        }
+        if let window = NSApplication.shared.keyWindow {
+            panel.beginSheetModal(for: window) { handle(respnse: $0) }
+        } else {
+            panel.begin { handle(respnse: $0) }
+        }
     }
 }
