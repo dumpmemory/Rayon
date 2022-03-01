@@ -1,39 +1,38 @@
 //
-//  SnippetsView.swift
+//  MachineGroupView.swift
 //  Rayon
 //
 //  Created by Lakr Aream on 2022/2/9.
 //
 
-import CodeMirrorUI
 import RayonModule
 import SwiftUI
 
-struct SnippetsView: View {
+struct MachineGroupView: View {
     @EnvironmentObject var store: RayonStore
 
     @State var searchText: String = ""
     @State var openAddSheet: Bool = false
 
-    @State var selection: Set<RDSnippet.ID> = []
-    @State var hoverSelection: RDSnippet.ID? = nil
+    @State var selection: Set<RDMachine.ID> = []
+    @State var hoverSelection: RDMachine.ID? = nil
 
     var itemSpacing: Double { UIBridge.itemSpacing }
 
-    func sectionFor(snippets: [RDSnippet]) -> [String] {
+    func sectionFor(machines: [RDMachine]) -> [String] {
         [String](Set<String>(
-            snippets.map(\.group)
+            machines.map(\.group)
         )).sorted()
     }
 
-    func searchResultFor(section: String) -> [RDSnippet] {
+    func searchResultFor(section: String) -> [RDMachine] {
         if searchText.count == 0 {
-            return store.userSnippets
-                .snippets
+            return store.machineGroup
+                .machines
                 .filter { $0.group == section }
         } else {
-            return store.userSnippets
-                .snippets
+            return store.machineGroup
+                .machines
                 .filter { $0.group == section }
                 .filter { $0.isQualifiedForSearch(text: searchText) }
         }
@@ -41,13 +40,13 @@ struct SnippetsView: View {
 
     func sectionData() -> [String] {
         if searchText.count == 0 {
-            return store.userSnippets.sections
+            return store.machineGroup.sections
         }
         let all = store
-            .userSnippets
-            .snippets
+            .machineGroup
+            .machines
             .filter { $0.isQualifiedForSearch(text: searchText) }
-        return sectionFor(snippets: all)
+        return sectionFor(machines: all)
     }
 
     var body: some View {
@@ -56,11 +55,8 @@ struct SnippetsView: View {
                 .requiresFrame()
                 .animation(.interactiveSpring(), value: hoverSelection)
                 .animation(.interactiveSpring(), value: selection)
-                .animation(.interactiveSpring(), value: store.remoteMachines)
+                .animation(.interactiveSpring(), value: store.machineGroup)
                 .padding()
-        }
-        .sheet(isPresented: $openAddSheet, onDismiss: nil) {
-            EditSnippetSheetView(inEdit: nil)
         }
         .toolbar {
             ToolbarItem {
@@ -83,15 +79,53 @@ struct SnippetsView: View {
                     modifiers: .command
                 ))
             }
+            ToolbarItem {
+                Button {
+                    switch store.remoteMachineRedactedLevel {
+                    case .none:
+                        store.remoteMachineRedactedLevel = .sensitive
+                    case .sensitive:
+                        store.remoteMachineRedactedLevel = .all
+                    case .all:
+                        store.remoteMachineRedactedLevel = .none
+                    }
+
+                } label: {
+                    switch store.remoteMachineRedactedLevel {
+                    case .none:
+                        Label("Redact Machines", systemImage: "eyes")
+                    case .sensitive:
+                        Label("Redact Machines", systemImage: "eyes.inverse")
+                    case .all:
+                        Label("Redact Machines", systemImage: "eye.trianglebadge.exclamationmark.fill")
+                    }
+                }
+                .keyboardShortcut(KeyboardShortcut(
+                    .init(unicodeScalarLiteral: "h"),
+                    modifiers: .option
+                ))
+            }
         }
+        .background(sheetEnter.hidden())
         .searchable(text: $searchText)
-        .navigationTitle("Snippets - \(store.userSnippets.count) available")
+        .navigationTitle("Machines - \(store.machineGroup.machines.count) available")
+    }
+
+    var sheetEnter: some View {
+        Group {}
+            .sheet(isPresented: $openAddSheet, onDismiss: nil) {
+                MachineCreateView(requiresDismissAction: true)
+            }
+    }
+
+    var columns: [GridItem] {
+        [GridItem(.adaptive(minimum: 280, maximum: 500), spacing: itemSpacing)]
     }
 
     var collections: some View {
         Group {
-            if store.userSnippets.count == 0 {
-                Text("No Snippet Available")
+            if store.machineGroup.count == 0 {
+                Text("No Server Available")
                     .expended()
             } else {
                 ScrollView {
@@ -110,10 +144,6 @@ struct SnippetsView: View {
         }
     }
 
-    var columns: [GridItem] {
-        [GridItem(.adaptive(minimum: 280, maximum: 500), spacing: itemSpacing)]
-    }
-
     var eachCollection: some View {
         VStack(alignment: .leading, spacing: itemSpacing) {
             ForEach(sectionData(), id: \.self) { section in
@@ -126,32 +156,32 @@ struct SnippetsView: View {
                 }
                 .font(.system(.headline, design: .rounded))
                 LazyVGrid(columns: columns, alignment: .leading, spacing: itemSpacing) {
-                    ForEach(searchResultFor(section: section)) { snippet in
-                        SnippetView(snippet: snippet.id)
+                    ForEach(searchResultFor(section: section)) { machine in
+                        MachineView(machine: machine.id)
                             .overlay(
                                 VStack {
                                     HStack(spacing: 4) {
                                         Spacer()
-                                        SnippetFloatingPanelView(snippet: snippet.id)
+                                        MachineActionView(machine: machine.id)
                                     }
                                     Spacer()
                                 }
                                 .padding(4)
-                                .opacity(hoverSelection == snippet.id ? 1 : 0)
+                                .opacity(hoverSelection == machine.id ? 1 : 0)
                             )
-                            .border(Color.gray, width: selection.contains(snippet.id) ? 0.5 : 0)
-                            .border(Color.accentColor, width: hoverSelection == snippet.id ? 0.5 : 0)
+                            .border(Color.gray, width: selection.contains(machine.id) ? 0.5 : 0)
+                            .border(Color.accentColor, width: hoverSelection == machine.id ? 0.5 : 0)
                             .onTapGesture {
-                                if selection.contains(snippet.id) {
+                                if selection.contains(machine.id) {
                                     selection = selection
-                                        .filter { $0 != snippet.id }
+                                        .filter { $0 != machine.id }
                                 } else {
-                                    selection.insert(snippet.id)
+                                    selection.insert(machine.id)
                                 }
                             }
                             .onHover { hover in
                                 if hover {
-                                    hoverSelection = snippet.id
+                                    hoverSelection = machine.id
                                 } else {
                                     hoverSelection = nil
                                 }
@@ -172,12 +202,13 @@ struct SnippetsView: View {
             guard confirmed else { return }
             for selection in selection {
                 let index = store
-                    .userSnippets
-                    .snippets
+                    .machineGroup
+                    .machines
                     .firstIndex { $0.id == selection }
                 if let index = index {
-                    store.userSnippets.snippets.remove(at: index)
+                    store.machineGroup.machines.remove(at: index)
                 }
+                store.cleanRecentIfNeeded()
             }
             selection = []
         }

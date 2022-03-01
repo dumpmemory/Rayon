@@ -25,7 +25,7 @@ extension RayonStore {
         }
         remoteSessionWindows[session] = window
     }
-    
+
     func terminateSession(with session: RDSession.ID) {
         if let window = remoteSessionWindows[session] {
             if let window = window as? NSCloseProtectedWindow {

@@ -5,6 +5,7 @@
 //  Created by Lakr Aream on 2022/2/8.
 //
 
+import AppKit
 import RayonModule
 import SwiftUI
 
@@ -15,13 +16,17 @@ struct RayonApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     init() {
+        #if DEBUG
+            NSLog(CommandLine.arguments.joined(separator: "\n"))
+        #endif
         RayonStore.setPresentError { error in
             UIBridge.presentError(with: error)
         }
         _ = RayonStore.shared
+//        requiresMenubarSetup = MenubarTool.shared.requireMenubarSetup()
         NSLog("static main completed")
     }
-    
+
     var body: some Scene {
         WindowGroup {
             MainView()
@@ -35,6 +40,24 @@ struct RayonApp: App {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    private(set) static var shared: AppDelegate!
+
+    override init() {
+        super.init()
+        debugPrint("\(self) \(#function)")
+        assert(AppDelegate.shared == nil, "duplicated init of AppDelegate")
+        AppDelegate.shared = self
+
+        let timer = Timer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(windowStatusWatcher),
+            userInfo: nil,
+            repeats: true
+        )
+        CFRunLoopAddTimer(CFRunLoopGetMain(), timer, .commonModes)
+    }
+
     func applicationShouldTerminate(_: NSApplication) -> NSApplication.TerminateReply {
         if RayonStore.shared.remoteSessions.count > 0 {
             UIBridge.requiresConfirmation(
@@ -49,5 +72,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return .terminateCancel
         }
         return .terminateNow
+    }
+
+    @objc
+    func windowStatusWatcher() {
+        let windows = NSApp.windows
+            .filter { window in
+                guard let readClass = NSClassFromString("NSStatusBarWindow") else {
+                    return true
+                }
+                return !window.isKind(of: readClass.self)
+            }
+            .filter(\.isVisible)
+        if windows.isEmpty, MenubarTool.shared.hasCat {
+            NSApp.setActivationPolicy(.accessory)
+        } else {
+            NSApp.setActivationPolicy(.regular)
+        }
     }
 }

@@ -23,16 +23,16 @@ public class RayonStore: ObservableObject {
         saveTemporarySession = UDSaveTemporarySession
 
         if let read = readEncryptedDefault(
-            from: .userIdentitiesEncrypted,
-            userIdentities.self
+            from: .identityGroupEncrypted,
+            identityGroup.self
         ) {
-            userIdentities = read
+            identityGroup = read
         }
         if let read = readEncryptedDefault(
-            from: .remoteMachinesEncrypted,
-            remoteMachines.self
+            from: .machineGroupEncrypted,
+            machineGroup.self
         ) {
-            remoteMachines = read
+            machineGroup = read
         }
         if let read = readEncryptedDefault(
             from: .remoteMachineRedactedLevel,
@@ -41,10 +41,10 @@ public class RayonStore: ObservableObject {
             remoteMachineRedactedLevel = read
         }
         if let read = readEncryptedDefault(
-            from: .userSnippetsEncrypted,
-            userSnippets.self
+            from: .snippetGroupEncrypted,
+            snippetGroup.self
         ) {
-            userSnippets = read
+            snippetGroup = read
         }
         if let read = readEncryptedDefault(
             from: .recentRecordEncrypted,
@@ -73,17 +73,17 @@ public class RayonStore: ObservableObject {
         }
     }
 
-    @Published public var userIdentities: RDIdentityGroup = .init() {
+    @Published public var identityGroup: RDIdentityGroup = .init() {
         didSet {
             storeEncryptedDefault(
-                to: .userIdentitiesEncrypted,
-                with: userIdentities
+                to: .identityGroupEncrypted,
+                with: identityGroup
             )
         }
     }
 
-    public var userIdentitiesForAutoAuth: [RDIdentity] {
-        userIdentities
+    public var identityGroupForAutoAuth: [RDIdentity] {
+        identityGroup
             .identities
             .filter(\.authenticAutomatically)
             // make sure not to reopen too many times
@@ -99,11 +99,11 @@ public class RayonStore: ObservableObject {
         }
     }
 
-    @Published public var remoteMachines: RDMachineGroup = .init() {
+    @Published public var machineGroup: RDMachineGroup = .init() {
         didSet {
             storeEncryptedDefault(
-                to: .remoteMachinesEncrypted,
-                with: remoteMachines
+                to: .machineGroupEncrypted,
+                with: machineGroup
             )
         }
     }
@@ -141,11 +141,11 @@ public class RayonStore: ObservableObject {
         }
     }
 
-    @Published public var userSnippets: RDSnippetGroup = .init() {
+    @Published public var snippetGroup: RDSnippetGroup = .init() {
         didSet {
             storeEncryptedDefault(
-                to: .userSnippetsEncrypted,
-                with: userSnippets
+                to: .snippetGroupEncrypted,
+                with: snippetGroup
             )
         }
     }

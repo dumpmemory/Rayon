@@ -15,9 +15,9 @@ private let storeQueue = DispatchQueue(label: "wiki.qaq.rayon.store")
 
 public extension RayonStore {
     enum UserDefaultKey: String {
-        case userIdentitiesEncrypted
-        case remoteMachinesEncrypted
-        case userSnippetsEncrypted
+        case identityGroupEncrypted
+        case machineGroupEncrypted
+        case snippetGroupEncrypted
         case recentRecordEncrypted
         case remoteMachineRedactedLevel
         case licenseAgreed
@@ -62,7 +62,7 @@ public extension RayonStore {
         guard withAddr.count > 0, withPort.count > 0 else {
             return nil
         }
-        for machine in remoteMachines.machines {
+        for machine in machineGroup.machines {
             if machine.remoteAddress == withAddr,
                machine.remotePort == withPort
             {
@@ -72,7 +72,7 @@ public extension RayonStore {
                     else {
                         continue
                     }
-                    let identity = userIdentities[rid]
+                    let identity = identityGroup[rid]
                     if identity.username == withUsername {
                         return machine.id
                     } else {

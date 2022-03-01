@@ -13,7 +13,7 @@ struct IdentitiesView: View {
 
     var tableItems: [RDIdentity] {
         store
-            .userIdentities
+            .identityGroup
             .identities
             .filter {
                 if searchText.count == 0 {
@@ -98,16 +98,16 @@ struct IdentitiesView: View {
         }
         .background(sheetEnter.hidden())
         .searchable(text: $searchText)
-        .navigationTitle("Identities - \(store.userIdentities.count) available")
+        .navigationTitle("Identities - \(store.identityGroup.count) available")
     }
 
     var table: some View {
         Table(selection: $selection, sortOrder: $sortOrder) {
             TableColumn("Username", value: \.username) { data in
-                TextField("", text: $store.userIdentities[data.id].username)
+                TextField("", text: $store.identityGroup[data.id].username)
             }
             TableColumn("Auto", value: \.authenticAutomatically, comparator: BoolComparator()) { data in
-                Toggle("Auto", isOn: $store.userIdentities[data.id].authenticAutomatically)
+                Toggle("Auto", isOn: $store.identityGroup[data.id].authenticAutomatically)
                     .labelsHidden()
             }
             .width(50)
@@ -126,10 +126,10 @@ struct IdentitiesView: View {
                 }
             }
             TableColumn("Group", value: \.group) { data in
-                TextField("Default", text: $store.userIdentities[data.id].group)
+                TextField("Default", text: $store.identityGroup[data.id].group)
             }
             TableColumn("Comment", value: \.comment) { data in
-                TextField("", text: $store.userIdentities[data.id].comment)
+                TextField("", text: $store.identityGroup[data.id].comment)
             }
         } rows: {
             ForEach(tableItems) { item in
@@ -154,11 +154,11 @@ struct IdentitiesView: View {
             guard confirmed else { return }
             for selection in selection {
                 let index = store
-                    .userIdentities
+                    .identityGroup
                     .identities
                     .firstIndex { $0.id == selection }
                 if let index = index {
-                    store.userIdentities.identities.remove(at: index)
+                    store.identityGroup.identities.remove(at: index)
                 }
             }
             selection = []
@@ -171,9 +171,9 @@ struct IdentitiesView: View {
         ) { confirmed in
             guard confirmed else { return }
             for selection in selection {
-                var item = store.userIdentities[selection]
+                var item = store.identityGroup[selection]
                 item.id = UUID()
-                store.userIdentities.insert(item)
+                store.identityGroup.insert(item)
             }
             selection = []
         }

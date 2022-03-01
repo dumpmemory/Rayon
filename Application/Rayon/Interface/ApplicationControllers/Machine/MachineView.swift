@@ -1,5 +1,5 @@
 //
-//  RemoteMachineView.swift
+//  MachineView.swift
 //  Rayon
 //
 //  Created by Lakr Aream on 2022/2/10.
@@ -8,7 +8,7 @@
 import RayonModule
 import SwiftUI
 
-struct RemoteMachineView: View {
+struct MachineView: View {
     let machine: RDMachine.ID
 
     @EnvironmentObject var store: RayonStore
@@ -22,11 +22,11 @@ struct RemoteMachineView: View {
             .contextMenu {
                 Button {
                     let index = store
-                        .remoteMachines
+                        .machineGroup
                         .machines
                         .firstIndex { $0.id == machine }
                     if let index = index {
-                        store.remoteMachines.machines.remove(at: index)
+                        store.machineGroup.machines.remove(at: index)
                     }
                 } label: {
                     Label("Delete", systemImage: "trash")
@@ -38,7 +38,7 @@ struct RemoteMachineView: View {
                     .roundedCorner()
             )
             .sheet(isPresented: $openEditSheet, onDismiss: nil, content: {
-                EditServerSheetView(inEditWith: machine)
+                MachineEditView(inEditWith: machine)
             })
     }
 
@@ -47,7 +47,7 @@ struct RemoteMachineView: View {
             HStack {
                 Image(systemName: "server.rack")
                 HStack {
-                    TextField("Server Name", text: $store.remoteMachines[machine].name)
+                    TextField("Server Name", text: $store.machineGroup[machine].name)
                         .textFieldStyle(PlainTextFieldStyle())
                     Spacer()
                 }
@@ -63,10 +63,10 @@ struct RemoteMachineView: View {
             }
             .font(.system(.headline, design: .rounded))
             HStack {
-                TextField("Server Address", text: $store.remoteMachines[machine].remoteAddress)
+                TextField("Server Address", text: $store.machineGroup[machine].remoteAddress)
                     .textFieldStyle(PlainTextFieldStyle())
                 Spacer()
-                TextField("Port", text: $store.remoteMachines[machine].remotePort)
+                TextField("Port", text: $store.machineGroup[machine].remotePort)
                     .multilineTextAlignment(.trailing)
                     .textFieldStyle(PlainTextFieldStyle())
                     .frame(width: 50)
@@ -93,20 +93,20 @@ struct RemoteMachineView: View {
                 }
                 VStack(alignment: .leading, spacing: 5) {
                     Text(
-                        store.remoteMachines[machine]
+                        store.machineGroup[machine]
                             .lastConnection
                             .formatted(date: .abbreviated, time: .omitted)
                     )
                     .lineLimit(1)
                     Text(
-                        store.remoteMachines[machine]
+                        store.machineGroup[machine]
                             .lastBanner
                             .count > 0 ?
-                            store.remoteMachines[machine].lastBanner
+                            store.machineGroup[machine].lastBanner
                             : "Not Identified"
                     )
                     .lineLimit(1)
-                    TextField("No Comment", text: $store.remoteMachines[machine].comment)
+                    TextField("No Comment", text: $store.machineGroup[machine].comment)
                         .textFieldStyle(PlainTextFieldStyle())
                         .lineLimit(1)
                 }
@@ -130,95 +130,5 @@ struct RemoteMachineView: View {
         .animation(.interactiveSpring(), value: store.remoteMachineRedactedLevel)
         .frame(maxWidth: .infinity)
         .padding()
-    }
-}
-
-struct RemoteMachineFloatingPanelView: View {
-    let machine: RDMachine.ID
-
-    @EnvironmentObject var store: RayonStore
-
-    @State var openEdit: Bool = false
-
-    var body: some View {
-        Group {
-            Button {
-                deleteButtonTapped()
-            } label: {
-                Image(systemName: "trash")
-            }
-            .foregroundColor(.accentColor)
-            Button {
-                duplicateButtonTapped()
-            } label: {
-                Image(systemName: "plus.square.on.square")
-            }
-            .foregroundColor(.accentColor)
-            Button {
-                openEdit = true
-            } label: {
-                Image(systemName: "pencil")
-            }
-            .foregroundColor(.accentColor)
-            Button {
-                beingConnect()
-            } label: {
-                Image(systemName: "cable.connector.horizontal")
-            }
-            .foregroundColor(.accentColor)
-        }
-        .sheet(isPresented: $openEdit, onDismiss: nil) {
-            EditServerSheetView(inEditWith: machine)
-        }
-    }
-
-    func beingConnect() {
-        var lookup = false
-        for session in store.remoteSessions where session.context.machine.id == machine {
-            lookup = true
-            break
-        }
-        if lookup {
-            UIBridge.requiresConfirmation(message: "A session is already in place, are you sure to open another?") { confirmed in
-                if confirmed {
-                    store.beginSessionStartup(for: machine)
-                }
-            }
-        } else {
-            store.beginSessionStartup(for: machine)
-        }
-    }
-
-    func duplicateButtonTapped() {
-        UIBridge.requiresConfirmation(
-            message: "You are about to duplicate this item"
-        ) { confirmed in
-            guard confirmed else { return }
-            let index = store
-                .remoteMachines
-                .machines
-                .firstIndex { $0.id == machine }
-            if let index = index {
-                var machine = store.remoteMachines.machines[index]
-                machine.id = UUID()
-                store.remoteMachines.machines.append(machine)
-            }
-        }
-    }
-
-    func deleteButtonTapped() {
-        UIBridge.requiresConfirmation(
-            message: "You are about to delete this item"
-        ) { confirmed in
-            guard confirmed else { return }
-            let index = store
-                .remoteMachines
-                .machines
-                .firstIndex { $0.id == machine }
-            if let index = index {
-                store.remoteMachines.machines.remove(at: index)
-            }
-            store.cleanRecentIfNeeded()
-        }
     }
 }

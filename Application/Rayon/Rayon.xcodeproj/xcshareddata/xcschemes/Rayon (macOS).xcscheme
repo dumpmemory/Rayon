@@ -50,6 +50,16 @@
             ReferencedContainer = "container:Rayon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "wiki.qaq.menubar"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "eyJtYWNoaW5lIjoiNkI1MEM2QTMtMTRBQy00MDM4LUIyN0YtNzk4OEM5NzNCOENGIiwiaWRlbnRpdHkiOiJDODc4MTM5QS0wRUMyLTQwNkQtQkM0QS04MEEwODY1NDI4RjgifQ=="
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "OS_ACTIVITY_MODE"

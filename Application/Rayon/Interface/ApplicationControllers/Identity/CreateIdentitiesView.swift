@@ -38,13 +38,13 @@ struct CreateIdentitiesView: View {
                 return
             }
             if let edit = selection {
-                var rid = RayonStore.shared.userIdentities[edit]
+                var rid = RayonStore.shared.identityGroup[edit]
                 rid.username = username
                 rid.password = password
                 rid.privateKey = privateKey
                 rid.publicKey = publicKey
                 rid.comment = comment
-                RayonStore.shared.userIdentities.insert(rid)
+                RayonStore.shared.identityGroup.insert(rid)
                 mainActor {
                     onComplete?(rid.id)
                 }
@@ -60,7 +60,7 @@ struct CreateIdentitiesView: View {
                     authenticAutomatically: true,
                     attachment: [:]
                 )
-                RayonStore.shared.userIdentities.insert(object)
+                RayonStore.shared.identityGroup.insert(object)
                 mainActor {
                     onComplete?(object.id)
                 }
@@ -69,7 +69,7 @@ struct CreateIdentitiesView: View {
         }
         .onAppear {
             if let edit = selection {
-                let rid = RayonStore.shared.userIdentities[edit]
+                let rid = RayonStore.shared.identityGroup[edit]
                 username = rid.username
                 password = rid.password
                 privateKey = rid.privateKey

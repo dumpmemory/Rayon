@@ -30,11 +30,11 @@ public extension RayonStore {
             case let .command(command):
                 return command.command
             case let .machine(machineID):
-                let machine = RayonStore.shared.remoteMachines[machineID]
+                let machine = RayonStore.shared.machineGroup[machineID]
                 guard let associatedIdentity = machine.associatedIdentity else {
                     return ""
                 }
-                guard let username = RayonStore.shared.userIdentities.identities.filter({ identity in
+                guard let username = RayonStore.shared.identityGroup.identities.filter({ identity in
                     identity.id.uuidString == associatedIdentity
                 }).first?.username else {
                     return ""
@@ -49,7 +49,7 @@ public extension RayonStore {
             .filter { record in
                 switch record {
                 case .command: return true
-                case let .machine(machine): return remoteMachines[machine].isNotPlaceholder()
+                case let .machine(machine): return machineGroup[machine].isNotPlaceholder()
                 }
             }
         mainActor {

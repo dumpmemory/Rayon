@@ -27,7 +27,7 @@ public extension RayonStore {
             associatedIdentity: withIdentity.uuidString,
             attachment: [:]
         )
-        remoteMachines.machines.append(machine)
+        machineGroup.machines.append(machine)
         return machine
     }
 }

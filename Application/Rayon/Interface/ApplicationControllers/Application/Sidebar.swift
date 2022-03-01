@@ -32,25 +32,25 @@ struct SidebarView: View {
             .tag(NavigationItem.quickConnect)
             Section("Manager") {
                 NavigationLink {
-                    ServersView()
+                    MachineGroupView()
                 } label: {
                     Label("Server", systemImage: "server.rack")
                 }
-                .badge(store.remoteMachines.count)
+                .badge(store.machineGroup.count)
                 .tag(NavigationItem.servers)
                 NavigationLink {
                     IdentitiesView()
                 } label: {
                     Label("Identity", systemImage: "key.fill")
                 }
-                .badge(store.userIdentities.count)
+                .badge(store.identityGroup.count)
                 .tag(NavigationItem.identities)
                 NavigationLink {
                     SnippetsView()
                 } label: {
                     Label("Snippet", systemImage: "arrow.right.doc.on.clipboard")
                 }
-                .badge(store.userSnippets.count)
+                .badge(store.snippetGroup.count)
                 .tag(NavigationItem.snippets)
             }
             Section("Session") {
@@ -122,7 +122,7 @@ struct SidebarView: View {
                     .background(Color.accentColor.opacity(0.0001))
                 }
                 .sheet(isPresented: $openServerSelector, onDismiss: nil, content: {
-                    ServerPickerView(onComplete: { machines in
+                    MachinePickerView(onComplete: { machines in
                         for machine in machines {
                             store.beginSessionStartup(for: machine)
                         }
@@ -231,10 +231,10 @@ struct SidebarView: View {
 
     func recentButton(for machine: RDMachine.ID) -> some View {
         Group {
-            if store.remoteMachines[machine].isNotPlaceholder() {
+            if store.machineGroup[machine].isNotPlaceholder() {
                 Button {
                     UIBridge.requiresConfirmation(
-                        message: "Open connection to \(store.remoteMachines[machine].name)?"
+                        message: "Open connection to \(store.machineGroup[machine].name)?"
                     ) { confirmed in
                         if confirmed {
                             store.beginSessionStartup(for: machine)
@@ -242,7 +242,7 @@ struct SidebarView: View {
                     }
                 } label: {
                     HStack {
-                        Label(store.remoteMachines[machine].name, systemImage: "rectangle.and.paperclip")
+                        Label(store.machineGroup[machine].name, systemImage: "rectangle.and.paperclip")
                         Spacer()
                     }
                     .background(Color.accentColor.opacity(0.0001))
@@ -251,14 +251,14 @@ struct SidebarView: View {
                 .expended()
                 .contextMenu {
                     Button {
-                        for target in store.remoteMachines.machines where target.id == machine {
+                        for target in store.machineGroup.machines where target.id == machine {
                             guard let id = target.associatedIdentity,
                                   let rid = UUID(uuidString: id)
                             else {
                                 UIBridge.presentError(with: "Username for this record was not found")
                                 return
                             }
-                            let oid = store.userIdentities[rid]
+                            let oid = store.identityGroup[rid]
                             guard oid.username.count > 0 else {
                                 UIBridge.presentError(with: "Username for this record was not found")
                                 return

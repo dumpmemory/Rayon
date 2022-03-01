@@ -14,7 +14,7 @@ extension RayonStore {
     }
 
     func beginBatchScriptExecution(for snippet: RDSnippet.ID, and machines: [RDMachine.ID]) {
-        let snippet = userSnippets[snippet]
+        let snippet = snippetGroup[snippet]
         guard snippet.code.count > 0 else {
             return
         }

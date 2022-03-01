@@ -46,7 +46,7 @@ public extension RayonStore {
             var finalID: RDIdentity?
 
             var previousUsername: String?
-            let search = self.userIdentitiesForAutoAuth
+            let search = self.identityGroupForAutoAuth
                 .filter { $0.username == command.username }
             for identity in search {
                 if let prevName = previousUsername, prevName != identity.username {
@@ -81,7 +81,7 @@ public extension RayonStore {
                     RayonStore.presentError("Authentication is required for session startup")
                     return
                 }
-                let obtainRequest = self.userIdentities[request]
+                let obtainRequest = self.identityGroup[request]
                 guard obtainRequest.username.count > 0 else {
                     // this should be our error, check code instead
                     return
@@ -166,7 +166,7 @@ public extension RayonStore {
                 mainActor { self.globalProgressCount -= 1 }
             }
             debugPrint("begin session startup \(machine)")
-            let machine = self.remoteMachines[machine]
+            let machine = self.machineGroup[machine]
             guard machine.remoteAddress.count > 0,
                   machine.remotePort.count > 0,
                   let intPort = Int(machine.remotePort)
@@ -180,7 +180,7 @@ public extension RayonStore {
                 RayonStore.presentError("unknown error: invalid session identity")
                 return
             }
-            let identity = self.userIdentities[compileIdentity]
+            let identity = self.identityGroup[compileIdentity]
             guard identity.username.count > 0 else {
                 RayonStore.presentError("unknown error: invalid session identity")
                 return

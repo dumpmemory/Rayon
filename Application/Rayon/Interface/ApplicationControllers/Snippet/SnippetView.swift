@@ -21,11 +21,11 @@ struct SnippetView: View {
             .contextMenu {
                 Button {
                     let index = store
-                        .userSnippets
+                        .snippetGroup
                         .snippets
                         .firstIndex { $0.id == snippet }
                     if let index = index {
-                        store.userSnippets.snippets.remove(at: index)
+                        store.snippetGroup.snippets.remove(at: index)
                     }
                 } label: {
                     Label("Delete", systemImage: "trash")
@@ -50,16 +50,16 @@ struct SnippetView: View {
                 Image(systemName: "arrow.right.doc.on.clipboard")
                     .font(.system(.title2, design: .rounded))
                 VStack(spacing: 0) {
-                    TextField("Snippet Name", text: $store.userSnippets[snippet].name)
+                    TextField("Snippet Name", text: $store.snippetGroup[snippet].name)
                         .textFieldStyle(PlainTextFieldStyle())
                         .font(.system(.headline, design: .rounded))
-                    TextField("No Comment", text: $store.userSnippets[snippet].comment)
+                    TextField("No Comment", text: $store.snippetGroup[snippet].comment)
                         .textFieldStyle(PlainTextFieldStyle())
                         .font(.system(size: 8, weight: .regular, design: .rounded))
                 }
             }
             Divider()
-            Text(store.userSnippets[snippet].code)
+            Text(store.snippetGroup[snippet].code)
                 .textSelection(.enabled)
                 .font(.system(size: 10, weight: .light, design: .monospaced))
                 .frame(height: 75)
@@ -87,24 +87,28 @@ struct SnippetFloatingPanelView: View {
                 deleteButtonTapped()
             } label: {
                 Image(systemName: "trash")
+                    .frame(width: 15)
             }
             .foregroundColor(.accentColor)
             Button {
                 duplicateButtonTapped()
             } label: {
                 Image(systemName: "plus.square.on.square")
+                    .frame(width: 15)
             }
             .foregroundColor(.accentColor)
             Button {
                 openEdit = true
             } label: {
                 Image(systemName: "pencil")
+                    .frame(width: 15)
             }
             .foregroundColor(.accentColor)
             Button {
                 chooseMachine()
             } label: {
                 Image(systemName: "paperplane.fill")
+                    .frame(width: 15)
             }
             .foregroundColor(.accentColor)
         }
@@ -112,7 +116,7 @@ struct SnippetFloatingPanelView: View {
             EditSnippetSheetView(inEdit: snippet)
         }
         .sheet(isPresented: $openServerPicker, onDismiss: nil, content: {
-            ServerPickerView(onComplete: { machines in
+            MachinePickerView(onComplete: { machines in
                 store.beginBatchScriptExecution(for: snippet, and: machines)
             }, allowSelectMany: true)
         })
@@ -128,13 +132,13 @@ struct SnippetFloatingPanelView: View {
         ) { confirmed in
             guard confirmed else { return }
             let index = store
-                .userSnippets
+                .snippetGroup
                 .snippets
                 .firstIndex { $0.id == snippet }
             if let index = index {
-                var read = store.userSnippets.snippets[index]
+                var read = store.snippetGroup.snippets[index]
                 read.id = .init()
-                store.userSnippets.snippets.append(read)
+                store.snippetGroup.snippets.append(read)
             }
         }
     }
@@ -149,11 +153,11 @@ struct SnippetFloatingPanelView: View {
         ) { confirmed in
             guard confirmed else { return }
             let index = store
-                .userSnippets
+                .snippetGroup
                 .snippets
                 .firstIndex { $0.id == snippet }
             if let index = index {
-                store.userSnippets.snippets.remove(at: index)
+                store.snippetGroup.snippets.remove(at: index)
             }
         }
     }

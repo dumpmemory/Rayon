@@ -19,7 +19,7 @@ class BatchSnippetExecContext: ObservableObject {
         var buildNames: [RDMachine.ID: String] = [:]
         for machine in machines {
             // run this in main thread
-            let object = RayonStore.shared.remoteMachines[machine]
+            let object = RayonStore.shared.machineGroup[machine]
             guard object.isNotPlaceholder() else {
                 debugPrint("garbage machine found")
                 receivedBuffer[machine] = "\r\n[*] Malformed Machine Info\r\n"
@@ -33,7 +33,7 @@ class BatchSnippetExecContext: ObservableObject {
             if let identity = object.associatedIdentity,
                let rid = UUID(uuidString: identity)
             {
-                let identityObject = RayonStore.shared.userIdentities[rid]
+                let identityObject = RayonStore.shared.identityGroup[rid]
                 if identityObject.username.count > 0 {
                     requiredIdentities[object.id] = identityObject
                 }

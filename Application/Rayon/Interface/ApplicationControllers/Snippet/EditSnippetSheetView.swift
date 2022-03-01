@@ -35,12 +35,12 @@ struct EditSnippetSheetView: View {
                 return
             }
             if let inEdit = inEdit {
-                var inplaceEdit = store.userSnippets[inEdit]
+                var inplaceEdit = store.snippetGroup[inEdit]
                 inplaceEdit.name = name
                 inplaceEdit.group = group
                 inplaceEdit.code = code
                 inplaceEdit.comment = comment
-                store.userSnippets.insert(inplaceEdit)
+                store.snippetGroup.insert(inplaceEdit)
             } else {
                 let create = RDSnippet(
                     name: name,
@@ -48,13 +48,13 @@ struct EditSnippetSheetView: View {
                     code: code,
                     comment: comment
                 )
-                store.userSnippets.insert(create)
+                store.snippetGroup.insert(create)
             }
             shouldDismiss = true
         }
         .onAppear {
             if let inEdit = inEdit {
-                let orig = store.userSnippets[inEdit]
+                let orig = store.snippetGroup[inEdit]
                 name = orig.name
                 group = orig.group
                 code = orig.code

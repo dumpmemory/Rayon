@@ -8,7 +8,7 @@
 import RayonModule
 import SwiftUI
 
-struct EditServerSheetView: View {
+struct MachineEditView: View {
     let inEditWith: RDMachine.ID
 
     @Environment(\.presentationMode) var presentationMode
@@ -25,7 +25,7 @@ struct EditServerSheetView: View {
 
     var identityDescription: String {
         if let aid = associatedIdentity {
-            return store.userIdentities[aid].shortDescription()
+            return store.identityGroup[aid].shortDescription()
         }
         return "No Associated Identity"
     }
@@ -41,18 +41,18 @@ struct EditServerSheetView: View {
                 shouldDismiss = true
                 return
             }
-            var generator = store.remoteMachines[inEditWith]
+            var generator = store.machineGroup[inEditWith]
             generator.remoteAddress = remoteAddress
             generator.remotePort = remotePort
             generator.name = name
             generator.group = group
             generator.comment = comment
             generator.associatedIdentity = associatedIdentity?.uuidString
-            store.remoteMachines.insert(generator)
+            store.machineGroup.insert(generator)
             shouldDismiss = true
         }
         .onAppear {
-            let read = store.remoteMachines[inEditWith]
+            let read = store.machineGroup[inEditWith]
             remoteAddress = read.remoteAddress
             remotePort = read.remotePort
             name = read.name

@@ -1,38 +1,39 @@
 //
-//  ServersView.swift
+//  SnippetsView.swift
 //  Rayon
 //
 //  Created by Lakr Aream on 2022/2/9.
 //
 
+import CodeMirrorUI
 import RayonModule
 import SwiftUI
 
-struct ServersView: View {
+struct SnippetsView: View {
     @EnvironmentObject var store: RayonStore
 
     @State var searchText: String = ""
     @State var openAddSheet: Bool = false
 
-    @State var selection: Set<RDMachine.ID> = []
-    @State var hoverSelection: RDMachine.ID? = nil
+    @State var selection: Set<RDSnippet.ID> = []
+    @State var hoverSelection: RDSnippet.ID? = nil
 
     var itemSpacing: Double { UIBridge.itemSpacing }
 
-    func sectionFor(machines: [RDMachine]) -> [String] {
+    func sectionFor(snippets: [RDSnippet]) -> [String] {
         [String](Set<String>(
-            machines.map(\.group)
+            snippets.map(\.group)
         )).sorted()
     }
 
-    func searchResultFor(section: String) -> [RDMachine] {
+    func searchResultFor(section: String) -> [RDSnippet] {
         if searchText.count == 0 {
-            return store.remoteMachines
-                .machines
+            return store.snippetGroup
+                .snippets
                 .filter { $0.group == section }
         } else {
-            return store.remoteMachines
-                .machines
+            return store.snippetGroup
+                .snippets
                 .filter { $0.group == section }
                 .filter { $0.isQualifiedForSearch(text: searchText) }
         }
@@ -40,13 +41,13 @@ struct ServersView: View {
 
     func sectionData() -> [String] {
         if searchText.count == 0 {
-            return store.remoteMachines.sections
+            return store.snippetGroup.sections
         }
         let all = store
-            .remoteMachines
-            .machines
+            .snippetGroup
+            .snippets
             .filter { $0.isQualifiedForSearch(text: searchText) }
-        return sectionFor(machines: all)
+        return sectionFor(snippets: all)
     }
 
     var body: some View {
@@ -55,8 +56,11 @@ struct ServersView: View {
                 .requiresFrame()
                 .animation(.interactiveSpring(), value: hoverSelection)
                 .animation(.interactiveSpring(), value: selection)
-                .animation(.interactiveSpring(), value: store.remoteMachines)
+                .animation(.interactiveSpring(), value: store.machineGroup)
                 .padding()
+        }
+        .sheet(isPresented: $openAddSheet, onDismiss: nil) {
+            EditSnippetSheetView(inEdit: nil)
         }
         .toolbar {
             ToolbarItem {
@@ -79,53 +83,15 @@ struct ServersView: View {
                     modifiers: .command
                 ))
             }
-            ToolbarItem {
-                Button {
-                    switch store.remoteMachineRedactedLevel {
-                    case .none:
-                        store.remoteMachineRedactedLevel = .sensitive
-                    case .sensitive:
-                        store.remoteMachineRedactedLevel = .all
-                    case .all:
-                        store.remoteMachineRedactedLevel = .none
-                    }
-
-                } label: {
-                    switch store.remoteMachineRedactedLevel {
-                    case .none:
-                        Label("Redact Machines", systemImage: "eyes")
-                    case .sensitive:
-                        Label("Redact Machines", systemImage: "eyes.inverse")
-                    case .all:
-                        Label("Redact Machines", systemImage: "eye.trianglebadge.exclamationmark.fill")
-                    }
-                }
-                .keyboardShortcut(KeyboardShortcut(
-                    .init(unicodeScalarLiteral: "h"),
-                    modifiers: .option
-                ))
-            }
         }
-        .background(sheetEnter.hidden())
         .searchable(text: $searchText)
-        .navigationTitle("Machines - \(store.remoteMachines.machines.count) available")
-    }
-
-    var sheetEnter: some View {
-        Group {}
-            .sheet(isPresented: $openAddSheet, onDismiss: nil) {
-                CreateServerView(requiresDismissAction: true)
-            }
-    }
-
-    var columns: [GridItem] {
-        [GridItem(.adaptive(minimum: 280, maximum: 500), spacing: itemSpacing)]
+        .navigationTitle("Snippets - \(store.snippetGroup.count) available")
     }
 
     var collections: some View {
         Group {
-            if store.remoteMachines.count == 0 {
-                Text("No Server Available")
+            if store.snippetGroup.count == 0 {
+                Text("No Snippet Available")
                     .expended()
             } else {
                 ScrollView {
@@ -144,6 +110,10 @@ struct ServersView: View {
         }
     }
 
+    var columns: [GridItem] {
+        [GridItem(.adaptive(minimum: 280, maximum: 500), spacing: itemSpacing)]
+    }
+
     var eachCollection: some View {
         VStack(alignment: .leading, spacing: itemSpacing) {
             ForEach(sectionData(), id: \.self) { section in
@@ -156,32 +126,32 @@ struct ServersView: View {
                 }
                 .font(.system(.headline, design: .rounded))
                 LazyVGrid(columns: columns, alignment: .leading, spacing: itemSpacing) {
-                    ForEach(searchResultFor(section: section)) { machine in
-                        RemoteMachineView(machine: machine.id)
+                    ForEach(searchResultFor(section: section)) { snippet in
+                        SnippetView(snippet: snippet.id)
                             .overlay(
                                 VStack {
                                     HStack(spacing: 4) {
                                         Spacer()
-                                        RemoteMachineFloatingPanelView(machine: machine.id)
+                                        SnippetFloatingPanelView(snippet: snippet.id)
                                     }
                                     Spacer()
                                 }
                                 .padding(4)
-                                .opacity(hoverSelection == machine.id ? 1 : 0)
+                                .opacity(hoverSelection == snippet.id ? 1 : 0)
                             )
-                            .border(Color.gray, width: selection.contains(machine.id) ? 0.5 : 0)
-                            .border(Color.accentColor, width: hoverSelection == machine.id ? 0.5 : 0)
+                            .border(Color.gray, width: selection.contains(snippet.id) ? 0.5 : 0)
+                            .border(Color.accentColor, width: hoverSelection == snippet.id ? 0.5 : 0)
                             .onTapGesture {
-                                if selection.contains(machine.id) {
+                                if selection.contains(snippet.id) {
                                     selection = selection
-                                        .filter { $0 != machine.id }
+                                        .filter { $0 != snippet.id }
                                 } else {
-                                    selection.insert(machine.id)
+                                    selection.insert(snippet.id)
                                 }
                             }
                             .onHover { hover in
                                 if hover {
-                                    hoverSelection = machine.id
+                                    hoverSelection = snippet.id
                                 } else {
                                     hoverSelection = nil
                                 }
@@ -202,13 +172,12 @@ struct ServersView: View {
             guard confirmed else { return }
             for selection in selection {
                 let index = store
-                    .remoteMachines
-                    .machines
+                    .snippetGroup
+                    .snippets
                     .firstIndex { $0.id == selection }
                 if let index = index {
-                    store.remoteMachines.machines.remove(at: index)
+                    store.snippetGroup.snippets.remove(at: index)
                 }
-                store.cleanRecentIfNeeded()
             }
             selection = []
         }

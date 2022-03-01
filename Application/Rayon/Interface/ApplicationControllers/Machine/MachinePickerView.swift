@@ -1,5 +1,5 @@
 //
-//  ServerPickerView.swift
+//  MachinePickerView.swift
 //  Rayon
 //
 //  Created by Lakr Aream on 2022/2/12.
@@ -8,7 +8,7 @@
 import RayonModule
 import SwiftUI
 
-struct ServerPickerView: View {
+struct MachinePickerView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var store: RayonStore
 
@@ -37,7 +37,7 @@ struct ServerPickerView: View {
     var sheetBody: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                ForEach(store.remoteMachines.machines) { machine in
+                ForEach(store.machineGroup.machines) { machine in
                     ServerPreviewBanner(machine: machine.id)
                         .padding(10)
                         .background(
@@ -90,7 +90,7 @@ struct ServerPickerView: View {
                 HStack {
                     Image(systemName: "server.rack")
                     HStack {
-                        Text(store.remoteMachines[machine].name)
+                        Text(store.machineGroup[machine].name)
                             .textFieldStyle(PlainTextFieldStyle())
                         Spacer()
                     }
@@ -98,16 +98,16 @@ struct ServerPickerView: View {
                 .font(.system(.headline, design: .rounded))
                 Divider()
                 HStack {
-                    Text("Address: " + store.remoteMachines[machine].remoteAddress)
+                    Text("Address: " + store.machineGroup[machine].remoteAddress)
                         .textFieldStyle(PlainTextFieldStyle())
                     Spacer()
-                    Text(store.remoteMachines[machine].remotePort)
+                    Text(store.machineGroup[machine].remotePort)
                         .multilineTextAlignment(.trailing)
                         .textFieldStyle(PlainTextFieldStyle())
                         .frame(width: 50)
                 }
                 .font(.system(.footnote, design: .monospaced)) // "Address: ".count == "Comment: ".count
-                Text(store.remoteMachines[machine].comment.count > 0 ? "Comment: \(store.remoteMachines[machine].comment)" : "Comment: Not Available")
+                Text(store.machineGroup[machine].comment.count > 0 ? "Comment: \(store.machineGroup[machine].comment)" : "Comment: Not Available")
                     .font(.system(.footnote, design: .monospaced))
             }
         }

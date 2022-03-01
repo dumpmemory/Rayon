@@ -1,5 +1,5 @@
 //
-//  CreateServerView.swift
+//  MachineCreateView.swift
 //  Rayon
 //
 //  Created by Lakr Aream on 2022/2/9.
@@ -9,7 +9,7 @@ import NSRemoteShell
 import RayonModule
 import SwiftUI
 
-struct CreateServerView: View {
+struct MachineCreateView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var store: RayonStore
 
@@ -62,7 +62,7 @@ struct CreateServerView: View {
                 SheetTemplate.makeProgress(text: "Operation in progress")
             }
             .sheet(isPresented: $createWithoutConnectView, onDismiss: nil) {
-                EditServerSheetView(inEditWith: UUID())
+                MachineEditView(inEditWith: UUID())
             }
             .sheet(isPresented: $showIdentityPickerView) {
                 continueProcessIfAvailable()
@@ -195,7 +195,7 @@ struct CreateServerView: View {
             }
 
             var lastLoginUsername: String?
-            for identity in store.userIdentitiesForAutoAuth {
+            for identity in store.identityGroupForAutoAuth {
                 if let lastUsername = lastLoginUsername, lastUsername != identity.username {
                     remote = createRemote()
                     if !remote.isConnected { break } // just break
@@ -227,7 +227,7 @@ struct CreateServerView: View {
             return
         }
         debugPrint("continue authentication process by using identity \(identitySelection)")
-        let identity = store.userIdentities[identitySelection]
+        let identity = store.identityGroup[identitySelection]
         mainActorProgressView(show: true)
         DispatchQueue.global().async {
             // we don't hold session, so we can re-auth with different username

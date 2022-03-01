@@ -94,7 +94,7 @@ public struct RDIdentity: Codable, Identifiable, Equatable {
             let date = Date()
             debugPrint("Identity \(id) was used to authentic session at \(date.timeIntervalSinceNow)")
             mainActor {
-                RayonStore.shared.userIdentities[id].lastRecentUsed = date
+                RayonStore.shared.identityGroup[id].lastRecentUsed = date
             }
         }
     }

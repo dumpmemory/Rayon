@@ -66,7 +66,7 @@ struct IdentityPickerSheetView: View {
     }
 
     var identitiesBody: some View {
-        ForEach(store.userIdentities.identities) { element in
+        ForEach(store.identityGroup.identities) { element in
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Image(systemName: "person.fill")
