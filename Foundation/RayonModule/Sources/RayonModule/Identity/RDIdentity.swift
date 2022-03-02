@@ -79,8 +79,10 @@ public struct RDIdentity: Codable, Identifiable, Equatable {
             }
         } else if publicKey.count > 0 {
             return "Unknown Key"
-        } else {
+        } else if password.count > 0 {
             return "Password"
+        } else {
+            return "Username Only"
         }
     }
 

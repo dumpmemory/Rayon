@@ -8,6 +8,7 @@
 import CodeMirrorUI
 import RayonModule
 import SwiftUI
+import SymbolPicker
 
 struct EditSnippetSheetView: View {
     // if edit nothing, create one
@@ -22,6 +23,9 @@ struct EditSnippetSheetView: View {
     @State var group: String = ""
     @State var code: String = ""
     @State var comment: String = ""
+    @State var avatar: String = ""
+
+    @State var openSymbolPicker: Bool = false
 
     var body: some View {
         SheetTemplate.makeSheet(
@@ -40,14 +44,16 @@ struct EditSnippetSheetView: View {
                 inplaceEdit.group = group
                 inplaceEdit.code = code
                 inplaceEdit.comment = comment
+                inplaceEdit.setSFAvatar(sfSymbol: avatar)
                 store.snippetGroup.insert(inplaceEdit)
             } else {
-                let create = RDSnippet(
+                var create = RDSnippet(
                     name: name,
                     group: group,
                     code: code,
                     comment: comment
                 )
+                create.setSFAvatar(sfSymbol: avatar)
                 store.snippetGroup.insert(create)
             }
             shouldDismiss = true
@@ -59,6 +65,7 @@ struct EditSnippetSheetView: View {
                 group = orig.group
                 code = orig.code
                 comment = orig.comment
+                avatar = orig.getSFAvatar()
             } else {
                 code = "#!/bin/bash\n"
                 comment = "Created at: " + Date().formatted()
@@ -68,7 +75,7 @@ struct EditSnippetSheetView: View {
     }
 
     var sheetBody: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack {
                 VStack(alignment: .leading) {
                     AlignedLabel("Name", icon: "tag")
@@ -81,9 +88,29 @@ struct EditSnippetSheetView: View {
             }
             AlignedLabel("Comment", icon: "text.bubble")
             TextField("No Comment (Optional)", text: $comment)
+            HStack {
+                AlignedLabel("Code", icon: "chevron.left.forwardslash.chevron.right")
+                Spacer()
+                Image(systemName: avatar)
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                Button {
+                    openSymbolPicker = true
+                } label: {
+                    Text("Pick Avatar")
+                        .underline()
+                        .foregroundColor(.accentColor)
+                        .font(.system(size: 10, weight: .semibold, design: .rounded))
+                        .makeHoverPointer()
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
             editor
                 .onContentChange { code = $0 }
+                .border(Color.gray, width: 0.5)
         }
+        .sheet(isPresented: $openSymbolPicker, onDismiss: nil, content: {
+            SymbolPicker(symbol: $avatar)
+        })
         .requiresSheetFrame(500, 300)
     }
 }

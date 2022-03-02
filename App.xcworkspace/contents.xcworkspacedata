@@ -5,6 +5,9 @@
       location = "group:Application/Rayon/Rayon.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Application/mRayon/mRayon.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Foundation/RayonModule">
    </FileRef>
    <FileRef
@@ -21,6 +24,9 @@
    </FileRef>
    <FileRef
       location = "group:External/NSRemoteShell">
+   </FileRef>
+   <FileRef
+      location = "group:Foundation/SymbolPicker">
    </FileRef>
    <FileRef
       location = "group:External/XTerminalUI">

@@ -47,7 +47,7 @@ struct SnippetView: View {
     var contentView: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(spacing: 8) {
-                Image(systemName: "arrow.right.doc.on.clipboard")
+                Image(systemName: store.snippetGroup[snippet].getSFAvatar())
                     .font(.system(.title2, design: .rounded))
                 VStack(spacing: 0) {
                     TextField("Snippet Name", text: $store.snippetGroup[snippet].name)

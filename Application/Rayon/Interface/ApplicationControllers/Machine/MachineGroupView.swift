@@ -81,17 +81,17 @@ struct MachineGroupView: View {
             }
             ToolbarItem {
                 Button {
-                    switch store.remoteMachineRedactedLevel {
+                    switch store.machineRedacted {
                     case .none:
-                        store.remoteMachineRedactedLevel = .sensitive
+                        store.machineRedacted = .sensitive
                     case .sensitive:
-                        store.remoteMachineRedactedLevel = .all
+                        store.machineRedacted = .all
                     case .all:
-                        store.remoteMachineRedactedLevel = .none
+                        store.machineRedacted = .none
                     }
 
                 } label: {
-                    switch store.remoteMachineRedactedLevel {
+                    switch store.machineRedacted {
                     case .none:
                         Label("Redact Machines", systemImage: "eyes")
                     case .sensitive:

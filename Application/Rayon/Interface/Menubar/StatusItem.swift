@@ -126,12 +126,13 @@ class MenubarStatusItem: NSObject, Identifiable {
     }
 
     func mouseEventHandler(_ event: NSEvent?) {
-        if popover.isShown {
-            hidePopover(event!)
+        if popover.isShown, let event = event {
+            hidePopover(event)
         }
     }
 
     func closeThisItem() {
+        popover.close()
         loopContinue = false
         eventMonitor = nil
         NSStatusBar.system.removeStatusItem(statusItem)

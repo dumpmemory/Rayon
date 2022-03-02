@@ -35,10 +35,10 @@ public class RayonStore: ObservableObject {
             machineGroup = read
         }
         if let read = readEncryptedDefault(
-            from: .remoteMachineRedactedLevel,
-            remoteMachineRedactedLevel.self
+            from: .machineRedacted,
+            machineRedacted.self
         ) {
-            remoteMachineRedactedLevel = read
+            machineRedacted = read
         }
         if let read = readEncryptedDefault(
             from: .snippetGroupEncrypted,
@@ -90,11 +90,11 @@ public class RayonStore: ObservableObject {
             .sorted { $0.username < $1.username }
     }
 
-    @Published public var remoteMachineRedactedLevel: RDMachine.RedactedLevel = .none {
+    @Published public var machineRedacted: RDMachine.RedactedLevel = .none {
         didSet {
             storeEncryptedDefault(
-                to: .remoteMachineRedactedLevel,
-                with: remoteMachineRedactedLevel
+                to: .machineRedacted,
+                with: machineRedacted
             )
         }
     }

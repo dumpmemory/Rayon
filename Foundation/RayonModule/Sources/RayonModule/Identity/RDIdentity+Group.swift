@@ -35,6 +35,8 @@ public struct RDIdentityGroup: Codable, Identifiable {
         set(newValue) {
             if let index = identities.firstIndex(where: { $0.id == newValue.id }) {
                 identities[index] = newValue
+            } else {
+                identities.append(newValue)
             }
         }
     }

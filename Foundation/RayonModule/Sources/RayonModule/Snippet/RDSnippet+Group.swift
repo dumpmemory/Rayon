@@ -47,6 +47,8 @@ public struct RDSnippetGroup: Codable, Identifiable, Equatable {
         set(newValue) {
             if let index = snippets.firstIndex(where: { $0.id == newValue.id }) {
                 snippets[index] = newValue
+            } else {
+                snippets.append(newValue)
             }
         }
     }

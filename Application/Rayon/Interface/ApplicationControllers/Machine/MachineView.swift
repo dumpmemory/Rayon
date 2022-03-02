@@ -57,7 +57,7 @@ struct MachineView: View {
                         .foregroundColor(redactedColor)
                         .expended()
                         .opacity(
-                            store.remoteMachineRedactedLevel.rawValue > 1 ? 1 : 0
+                            store.machineRedacted.rawValue > 1 ? 1 : 0
                         )
                 )
             }
@@ -77,7 +77,7 @@ struct MachineView: View {
                     .foregroundColor(redactedColor)
                     .expended()
                     .opacity(
-                        store.remoteMachineRedactedLevel.rawValue > 0 ? 1 : 0
+                        store.machineRedacted.rawValue > 0 ? 1 : 0
                     )
             )
             .font(.system(.subheadline, design: .rounded))
@@ -118,7 +118,7 @@ struct MachineView: View {
                     .foregroundColor(redactedColor)
                     .expended()
                     .opacity(
-                        store.remoteMachineRedactedLevel.rawValue > 1 ? 1 : 0
+                        store.machineRedacted.rawValue > 1 ? 1 : 0
                     )
             )
             .textSelection(.enabled)
@@ -127,7 +127,7 @@ struct MachineView: View {
                 .textSelection(.enabled)
                 .font(.system(size: 5, weight: .light, design: .monospaced))
         }
-        .animation(.interactiveSpring(), value: store.remoteMachineRedactedLevel)
+        .animation(.interactiveSpring(), value: store.machineRedacted)
         .frame(maxWidth: .infinity)
         .padding()
     }

@@ -49,7 +49,10 @@ struct WelcomeView: View {
                 HStack {
                     TextField("ssh root@www.example.com -p 22 ↵", text: $quickConnect)
                         .textFieldStyle(PlainTextFieldStyle())
+//                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
                         .focused($textFieldIsFocused)
+                        .font(.system(.headline, design: .rounded))
                         .onChange(of: quickConnect, perform: { newValue in
                             if newValue.hasPrefix("ssh ssh ") {
                                 // user pasting command
@@ -70,7 +73,7 @@ struct WelcomeView: View {
                         .padding(6)
                         .background(
                             Rectangle()
-                                .opacity(0.1)
+                                .foregroundColor(.black.opacity(0.1))
                                 .cornerRadius(4)
                         )
 
@@ -155,16 +158,13 @@ struct WelcomeView: View {
         }) {
             HStack {
                 Text("Did you mean \"\(suggestion!)\"?")
-                    .font(.system(size: 10))
                 Text("⌘⏎")
-                    .font(.system(size: 10))
-                    .opacity(0.5)
             }
-            .padding(.horizontal, 6)
-            .padding(.vertical, 4)
+            .font(.system(.footnote, design: .rounded))
+            .padding(6)
             .background(
                 Rectangle()
-                    .fill(Color.black.opacity(0.4))
+                    .foregroundColor(.black.opacity(0.1))
                     .cornerRadius(4)
             )
         }

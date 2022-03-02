@@ -47,6 +47,8 @@ public struct RDMachineGroup: Codable, Identifiable, Equatable {
         set(newValue) {
             if let index = machines.firstIndex(where: { $0.id == newValue.id }) {
                 machines[index] = newValue
+            } else {
+                machines.append(newValue)
             }
         }
     }

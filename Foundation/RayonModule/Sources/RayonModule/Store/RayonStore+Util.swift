@@ -19,7 +19,7 @@ public extension RayonStore {
         case machineGroupEncrypted
         case snippetGroupEncrypted
         case recentRecordEncrypted
-        case remoteMachineRedactedLevel
+        case machineRedacted
         case licenseAgreed
     }
 

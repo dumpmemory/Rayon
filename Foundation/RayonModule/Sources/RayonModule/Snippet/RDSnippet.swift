@@ -49,4 +49,25 @@ public struct RDSnippet: Codable, Identifiable, Equatable {
         }
         return false
     }
+
+    private enum AttachmentKey: String {
+        case sfAvatar
+    }
+
+    public mutating func setSFAvatar(sfSymbol name: String) {
+        attachment[AttachmentKey.sfAvatar.rawValue] = name
+    }
+
+    public mutating func clearSFAvatar() {
+        attachment.removeValue(forKey: AttachmentKey.sfAvatar.rawValue)
+    }
+
+    public func getSFAvatar() -> String {
+        if let avatar = attachment[AttachmentKey.sfAvatar.rawValue],
+           !avatar.isEmpty
+        {
+            return avatar
+        }
+        return "arrow.right.doc.on.clipboard"
+    }
 }

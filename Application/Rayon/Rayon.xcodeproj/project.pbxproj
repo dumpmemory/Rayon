@@ -10,6 +10,8 @@
 		501017EE27CE51270079A516 /* StatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501017ED27CE51270079A516 /* StatusItem.swift */; };
 		501017F127CE621D0079A516 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501017F027CE621D0079A516 /* EventMonitor.swift */; };
 		501017F327CE625C0079A516 /* StatusItem+Loop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501017F227CE625C0079A516 /* StatusItem+Loop.swift */; };
+		501FF79F27CEFC8B00380D59 /* CodeMirrorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 501FF79E27CEFC8B00380D59 /* CodeMirrorUI */; };
+		501FF7A527CEFF2300380D59 /* SymbolPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 501FF7A427CEFF2300380D59 /* SymbolPicker */; };
 		5027915627CE442600EB22DD /* MenubarTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027915527CE442600EB22DD /* MenubarTool.swift */; };
 		5027915827CE448200EB22DD /* MenubarLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027915727CE448200EB22DD /* MenubarLoader.swift */; };
 		5027915C27CE4A7500EB22DD /* MachineActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027915B27CE4A7500EB22DD /* MachineActionView.swift */; };
@@ -34,7 +36,6 @@
 		509F4E5427B951B500ADAF5C /* EULA in Resources */ = {isa = PBXBuildFile; fileRef = 509F4E4F27B94F1700ADAF5C /* EULA */; };
 		509F7F4127B2AF7F00F28752 /* RayonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F7F2C27B2AF7E00F28752 /* RayonApp.swift */; };
 		509F7F4727B2AF7F00F28752 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 509F7F2F27B2AF7F00F28752 /* Assets.xcassets */; };
-		509F7F6827B2B51000F28752 /* XTerminalUI in Frameworks */ = {isa = PBXBuildFile; productRef = 509F7F6727B2B51000F28752 /* XTerminalUI */; };
 		509F7F6F27B2C32900F28752 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F7F6D27B2C32900F28752 /* MainView.swift */; };
 		509F7F7627B2C95F00F28752 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F7F7427B2C95F00F28752 /* Sidebar.swift */; };
 		509F7F7D27B2CB0D00F28752 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F7F7B27B2CB0D00F28752 /* WelcomeView.swift */; };
@@ -54,7 +55,6 @@
 		50A8A6A627B843A2004F6DDC /* BatchExecMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8A6A427B843A2004F6DDC /* BatchExecMainView.swift */; };
 		50A8A6A927B84EF9004F6DDC /* BatchTerminalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8A6A727B84EF9004F6DDC /* BatchTerminalView.swift */; };
 		50A8A6AC27B850E9004F6DDC /* BatchSnippetExecContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8A6AA27B850E9004F6DDC /* BatchSnippetExecContext.swift */; };
-		50BBA50127B6DA3000CE7BB1 /* CodeMirrorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 50BBA50027B6DA3000CE7BB1 /* CodeMirrorUI */; };
 		50BBA50727B6FAAC00CE7BB1 /* SessionHelperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBA50527B6FAAC00CE7BB1 /* SessionHelperView.swift */; };
 		50BBA54B27B7F08800CE7BB1 /* MachinePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBA54927B7F08800CE7BB1 /* MachinePickerView.swift */; };
 		50BBA54F27B8000900CE7BB1 /* Colorful in Frameworks */ = {isa = PBXBuildFile; productRef = 50BBA54E27B8000900CE7BB1 /* Colorful */; };
@@ -139,9 +139,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50BBA50127B6DA3000CE7BB1 /* CodeMirrorUI in Frameworks */,
-				509F7F6827B2B51000F28752 /* XTerminalUI in Frameworks */,
+				501FF7A527CEFF2300380D59 /* SymbolPicker in Frameworks */,
 				5068E44C27CE3AAE00F8B770 /* RayonModule in Frameworks */,
+				501FF79F27CEFC8B00380D59 /* CodeMirrorUI in Frameworks */,
 				50BBA54F27B8000900CE7BB1 /* Colorful in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,10 +387,10 @@
 			);
 			name = "Rayon (macOS)";
 			packageProductDependencies = (
-				509F7F6727B2B51000F28752 /* XTerminalUI */,
-				50BBA50027B6DA3000CE7BB1 /* CodeMirrorUI */,
 				50BBA54E27B8000900CE7BB1 /* Colorful */,
 				5068E44B27CE3AAE00F8B770 /* RayonModule */,
+				501FF79E27CEFC8B00380D59 /* CodeMirrorUI */,
+				501FF7A427CEFF2300380D59 /* SymbolPicker */,
 			);
 			productName = "Rayon (macOS)";
 			productReference = 509F7F3C27B2AF7F00F28752 /* Rayon.app */;
@@ -701,17 +701,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		501FF79E27CEFC8B00380D59 /* CodeMirrorUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CodeMirrorUI;
+		};
+		501FF7A427CEFF2300380D59 /* SymbolPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SymbolPicker;
+		};
 		5068E44B27CE3AAE00F8B770 /* RayonModule */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RayonModule;
-		};
-		509F7F6727B2B51000F28752 /* XTerminalUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = XTerminalUI;
-		};
-		50BBA50027B6DA3000CE7BB1 /* CodeMirrorUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CodeMirrorUI;
 		};
 		50BBA54E27B8000900CE7BB1 /* Colorful */ = {
 			isa = XCSwiftPackageProductDependency;
