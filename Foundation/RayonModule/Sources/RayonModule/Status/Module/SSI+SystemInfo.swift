@@ -16,7 +16,7 @@ public extension ServerStatus {
         public var id = UUID()
 
         public let releaseName: String
-        public let uptimeSec: Int
+        public let uptimeSec: Double
         public let hostname: String
         public let runningProcs: Int
         public let totalProcs: Int
@@ -35,7 +35,7 @@ public extension ServerStatus {
         }
 
         public init(release: String,
-                    uptimeInSec: Int, hostname: String,
+                    uptimeInSec: Double, hostname: String,
                     runningProcs: Int, totalProcs: Int,
                     load1: Float, load5: Float, load15: Float)
         {
@@ -53,18 +53,16 @@ public extension ServerStatus {
             func buildHostname(intake: String) -> String {
                 intake.replacingOccurrences(of: "\n", with: "")
             }
-            func buildUptime(intake: String) -> Int {
+            func buildUptime(intake: String) -> Double {
                 let get = intake
-                guard let ans = Double(get
+                let raw = get
                     .components(separatedBy: " ")
-                    .first ?? "")
+                    .first ?? ""
+                guard let val = Double(raw)
                 else {
                     return 0
                 }
-                if ans < Double(Int.min + 5) || ans > Double(Int.max - 5) {
-                    return 0
-                }
-                return Int(exactly: ans) ?? 0
+                return val
             }
             func buildLoadStatus(intake: String) -> SystemLoadInternal {
                 var ret = SystemLoadInternal()
@@ -143,7 +141,7 @@ public extension ServerStatus {
                 hostname = buildHostname(intake: intake)
             }
 
-            var uptime = 0
+            var uptime: Double = 0
             group.enter()
             DispatchQueue.global().async {
                 defer { group.leave() }

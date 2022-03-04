@@ -16,7 +16,6 @@
 		5027915827CE448200EB22DD /* MenubarLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027915727CE448200EB22DD /* MenubarLoader.swift */; };
 		5027915C27CE4A7500EB22DD /* MachineActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027915B27CE4A7500EB22DD /* MachineActionView.swift */; };
 		5027F25327B81C5200F422BB /* ThanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027F25127B81C0100F422BB /* ThanksView.swift */; };
-		5027F25627B81DEC00F422BB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5027F25427B81DE400F422BB /* LICENSE */; };
 		5027F25D27B8210300F422BB /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027F25B27B8210300F422BB /* LicenseView.swift */; };
 		5038AAAC27B5297F00BFDF55 /* EditSnippetSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038AAAA27B5297F00BFDF55 /* EditSnippetSheetView.swift */; };
 		505E762B27B4ECFC008D80F6 /* MachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505E762927B4ECFC008D80F6 /* MachineView.swift */; };
@@ -29,11 +28,12 @@
 		5068AB3027B5B97200564D1D /* SessionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5068AB2E27B5B97200564D1D /* SessionInfoView.swift */; };
 		5068AB3327B5B98900564D1D /* SessionSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5068AB3127B5B98900564D1D /* SessionSidebarView.swift */; };
 		5068E44C27CE3AAE00F8B770 /* RayonModule in Frameworks */ = {isa = PBXBuildFile; productRef = 5068E44B27CE3AAE00F8B770 /* RayonModule */; };
+		5082A1CF27D0E0F300C71C0F /* EULA in Resources */ = {isa = PBXBuildFile; fileRef = 5082A1CD27D0E0F300C71C0F /* EULA */; };
+		5082A1D027D0E0F300C71C0F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5082A1CE27D0E0F300C71C0F /* LICENSE */; };
 		5091898527B80A56003C1B0F /* CreateWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5091898427B80A56003C1B0F /* CreateWindow.swift */; };
 		509820A127CDB354005FAA97 /* RayonStore+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509820A027CDB354005FAA97 /* RayonStore+SwiftUI.swift */; };
 		509820A327CDB492005FAA97 /* RayonStore+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509820A227CDB492005FAA97 /* RayonStore+Window.swift */; };
 		509F4E5227B9502500ADAF5C /* AgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F4E5027B9502500ADAF5C /* AgreementView.swift */; };
-		509F4E5427B951B500ADAF5C /* EULA in Resources */ = {isa = PBXBuildFile; fileRef = 509F4E4F27B94F1700ADAF5C /* EULA */; };
 		509F7F4127B2AF7F00F28752 /* RayonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F7F2C27B2AF7E00F28752 /* RayonApp.swift */; };
 		509F7F4727B2AF7F00F28752 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 509F7F2F27B2AF7F00F28752 /* Assets.xcassets */; };
 		509F7F6F27B2C32900F28752 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F7F6D27B2C32900F28752 /* MainView.swift */; };
@@ -58,6 +58,10 @@
 		50BBA50727B6FAAC00CE7BB1 /* SessionHelperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBA50527B6FAAC00CE7BB1 /* SessionHelperView.swift */; };
 		50BBA54B27B7F08800CE7BB1 /* MachinePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBA54927B7F08800CE7BB1 /* MachinePickerView.swift */; };
 		50BBA54F27B8000900CE7BB1 /* Colorful in Frameworks */ = {isa = PBXBuildFile; productRef = 50BBA54E27B8000900CE7BB1 /* Colorful */; };
+		50BBE74E27D21F8B00063BA9 /* RDSession.Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBE74D27D21F8B00063BA9 /* RDSession.Context.swift */; };
+		50BBE75027D21F9500063BA9 /* TerminalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBE74F27D21F9500063BA9 /* TerminalManager.swift */; };
+		50BBE75427D21FCB00063BA9 /* RayonStore+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBE75327D21FCB00063BA9 /* RayonStore+Session.swift */; };
+		50BBE75527D220C700063BA9 /* RDSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBE75227D21FA700063BA9 /* RDSession.swift */; };
 		50DDB33E27B4009800C471C0 /* IdentityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DDB33C27B4009800C471C0 /* IdentityPickerView.swift */; };
 		50F64E5A27B3CB35008D52FB /* CreateIdentitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F64E5827B3CB35008D52FB /* CreateIdentitiesView.swift */; };
 		50F64E5F27B3D922008D52FB /* MachineCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F64E5D27B3D922008D52FB /* MachineCreateView.swift */; };
@@ -86,7 +90,6 @@
 		5027915B27CE4A7500EB22DD /* MachineActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineActionView.swift; sourceTree = "<group>"; };
 		5027F24F27B80FDB00F422BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5027F25127B81C0100F422BB /* ThanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksView.swift; sourceTree = "<group>"; };
-		5027F25427B81DE400F422BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		5027F25B27B8210300F422BB /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		5038AAAA27B5297F00BFDF55 /* EditSnippetSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSnippetSheetView.swift; sourceTree = "<group>"; };
 		505E762927B4ECFC008D80F6 /* MachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineView.swift; sourceTree = "<group>"; };
@@ -98,10 +101,11 @@
 		5068AB2727B580C600564D1D /* Generic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generic.swift; sourceTree = "<group>"; };
 		5068AB2E27B5B97200564D1D /* SessionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInfoView.swift; sourceTree = "<group>"; };
 		5068AB3127B5B98900564D1D /* SessionSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSidebarView.swift; sourceTree = "<group>"; };
+		5082A1CD27D0E0F300C71C0F /* EULA */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EULA; path = ../../../Resources/EULA; sourceTree = "<group>"; };
+		5082A1CE27D0E0F300C71C0F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../../../Resources/LICENSE; sourceTree = "<group>"; };
 		5091898427B80A56003C1B0F /* CreateWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWindow.swift; sourceTree = "<group>"; };
 		509820A027CDB354005FAA97 /* RayonStore+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RayonStore+SwiftUI.swift"; sourceTree = "<group>"; };
 		509820A227CDB492005FAA97 /* RayonStore+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RayonStore+Window.swift"; sourceTree = "<group>"; };
-		509F4E4F27B94F1700ADAF5C /* EULA */ = {isa = PBXFileReference; lastKnownFileType = text; path = EULA; sourceTree = "<group>"; };
 		509F4E5027B9502500ADAF5C /* AgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementView.swift; sourceTree = "<group>"; };
 		509F7F2C27B2AF7E00F28752 /* RayonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayonApp.swift; sourceTree = "<group>"; };
 		509F7F2F27B2AF7F00F28752 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -128,6 +132,10 @@
 		50A8A6AA27B850E9004F6DDC /* BatchSnippetExecContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchSnippetExecContext.swift; sourceTree = "<group>"; };
 		50BBA50527B6FAAC00CE7BB1 /* SessionHelperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHelperView.swift; sourceTree = "<group>"; };
 		50BBA54927B7F08800CE7BB1 /* MachinePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinePickerView.swift; sourceTree = "<group>"; };
+		50BBE74D27D21F8B00063BA9 /* RDSession.Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDSession.Context.swift; sourceTree = "<group>"; };
+		50BBE74F27D21F9500063BA9 /* TerminalManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalManager.swift; sourceTree = "<group>"; };
+		50BBE75227D21FA700063BA9 /* RDSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDSession.swift; sourceTree = "<group>"; };
+		50BBE75327D21FCB00063BA9 /* RayonStore+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RayonStore+Session.swift"; sourceTree = "<group>"; };
 		50DDB33C27B4009800C471C0 /* IdentityPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityPickerView.swift; sourceTree = "<group>"; };
 		50F64E5827B3CB35008D52FB /* CreateIdentitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIdentitiesView.swift; sourceTree = "<group>"; };
 		50F64E5D27B3D922008D52FB /* MachineCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineCreateView.swift; sourceTree = "<group>"; };
@@ -212,6 +220,7 @@
 		5098209F27CDB34B005FAA97 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				50BBE75127D21FA700063BA9 /* Session */,
 				509820A027CDB354005FAA97 /* RayonStore+SwiftUI.swift */,
 				509820A227CDB492005FAA97 /* RayonStore+Window.swift */,
 			);
@@ -235,8 +244,8 @@
 			children = (
 				509F7F2C27B2AF7E00F28752 /* RayonApp.swift */,
 				509F7F2F27B2AF7F00F28752 /* Assets.xcassets */,
-				5027F25427B81DE400F422BB /* LICENSE */,
-				509F4E4F27B94F1700ADAF5C /* EULA */,
+				5082A1CD27D0E0F300C71C0F /* EULA */,
+				5082A1CE27D0E0F300C71C0F /* LICENSE */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -330,6 +339,17 @@
 				50A8A6A727B84EF9004F6DDC /* BatchTerminalView.swift */,
 			);
 			path = BatchSnippetExec;
+			sourceTree = "<group>";
+		};
+		50BBE75127D21FA700063BA9 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				50BBE75227D21FA700063BA9 /* RDSession.swift */,
+				50BBE74D27D21F8B00063BA9 /* RDSession.Context.swift */,
+				50BBE75327D21FCB00063BA9 /* RayonStore+Session.swift */,
+				50BBE74F27D21F9500063BA9 /* TerminalManager.swift */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 		50F64E5B27B3D47B008D52FB /* Identity */ = {
@@ -434,9 +454,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5027F25627B81DEC00F422BB /* LICENSE in Resources */,
-				509F4E5427B951B500ADAF5C /* EULA in Resources */,
+				5082A1D027D0E0F300C71C0F /* LICENSE in Resources */,
 				509F7F4727B2AF7F00F28752 /* Assets.xcassets in Resources */,
+				5082A1CF27D0E0F300C71C0F /* EULA in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,16 +471,19 @@
 				50A8A6A327B84317004F6DDC /* BatchSnippetSidebarView.swift in Sources */,
 				501017F127CE621D0079A516 /* EventMonitor.swift in Sources */,
 				509F7FBA27B39BA800F28752 /* DoubleConfirm.swift in Sources */,
+				50BBE74E27D21F8B00063BA9 /* RDSession.Context.swift in Sources */,
 				509F7F4127B2AF7F00F28752 /* RayonApp.swift in Sources */,
 				5027F25327B81C5200F422BB /* ThanksView.swift in Sources */,
 				5038AAAC27B5297F00BFDF55 /* EditSnippetSheetView.swift in Sources */,
 				509F7FA327B303FE00F28752 /* UIBridge.swift in Sources */,
+				50BBE75027D21F9500063BA9 /* TerminalManager.swift in Sources */,
 				501017F327CE625C0079A516 /* StatusItem+Loop.swift in Sources */,
 				50A8A6A627B843A2004F6DDC /* BatchExecMainView.swift in Sources */,
 				50A8A69B27B833FE004F6DDC /* BatchSnippetExecView.swift in Sources */,
 				509F7FA027B303DF00F28752 /* PresentError.swift in Sources */,
 				50F64E5A27B3CB35008D52FB /* CreateIdentitiesView.swift in Sources */,
 				509F7F9027B2E14900F28752 /* MachineGroupView.swift in Sources */,
+				50BBE75427D21FCB00063BA9 /* RayonStore+Session.swift in Sources */,
 				509F7F9527B2E3EE00F28752 /* StarLinkView.swift in Sources */,
 				509F7F8127B2CB4100F28752 /* GenericViewModifier.swift in Sources */,
 				50A8A6AC27B850E9004F6DDC /* BatchSnippetExecContext.swift in Sources */,
@@ -468,6 +491,7 @@
 				505E762E27B4FFA9008D80F6 /* MachineEditView.swift in Sources */,
 				5068AB2027B5501A00564D1D /* SessionTerminalView.swift in Sources */,
 				505E762B27B4ECFC008D80F6 /* MachineView.swift in Sources */,
+				50BBE75527D220C700063BA9 /* RDSession.swift in Sources */,
 				5027F25D27B8210300F422BB /* LicenseView.swift in Sources */,
 				50BBA54B27B7F08800CE7BB1 /* MachinePickerView.swift in Sources */,
 				50A8A6A927B84EF9004F6DDC /* BatchTerminalView.swift in Sources */,
@@ -635,7 +659,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.rayon.debug;
 				PRODUCT_NAME = Rayon;
 				SDKROOT = macosx;
@@ -667,7 +691,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.ray0n;
 				PRODUCT_NAME = Rayon;
 				PROVISIONING_PROFILE_SPECIFIER = "";

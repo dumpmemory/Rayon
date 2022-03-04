@@ -5,7 +5,17 @@
 //  Created by Lakr Aream on 2022/2/9.
 //
 
+import Foundation
 import NSRemoteShell
+import RayonModule
+
+class RDSessionManager: ObservableObject {
+    static let shared: RDSessionManager = .init()
+
+    private init() {}
+
+    @Published public var remoteSessions: [RDSession] = []
+}
 
 public struct RDSession: Identifiable {
     public init(

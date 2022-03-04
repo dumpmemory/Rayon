@@ -52,4 +52,12 @@ public struct RDSnippetGroup: Codable, Identifiable, Equatable {
             }
         }
     }
+
+    public mutating func delete(_ value: AssociatedType.ID) {
+        let index = snippets
+            .firstIndex { $0.id == value }
+        if let index = index {
+            snippets.remove(at: index)
+        }
+    }
 }

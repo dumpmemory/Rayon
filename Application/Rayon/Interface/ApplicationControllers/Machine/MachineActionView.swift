@@ -13,6 +13,8 @@ struct MachineActionView: View {
 
     @EnvironmentObject var store: RayonStore
 
+    @StateObject var sessionManager = RDSessionManager.shared
+
     @State var openEdit: Bool = false
 
     var body: some View {
@@ -63,7 +65,7 @@ struct MachineActionView: View {
 
     func beingConnect() {
         var lookup = false
-        for session in store.remoteSessions where session.context.machine.id == machine {
+        for session in sessionManager.remoteSessions where session.context.machine.id == machine {
             lookup = true
             break
         }

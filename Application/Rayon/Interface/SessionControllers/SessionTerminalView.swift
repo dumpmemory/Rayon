@@ -30,6 +30,11 @@ struct SessionTerminalView: View {
                 .coreUI
                 .setupBufferChain {
                     dataBuffer.append($0)
+                    let data = $0
+                        .data(using: .utf8)?
+                        .base64EncodedString()
+                        ?? "base64 failed"
+                    debugPrint("buffer \($0) data \(data)")
                     context.shell.explicitRequestStatusPickup()
                 }
                 .setupTitleChain {

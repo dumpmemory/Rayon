@@ -21,6 +21,8 @@ class MenubarStatusItem: NSObject, Identifiable {
 
     var loopContinue: Bool = true
 
+    var representedShell: NSRemoteShell?
+
     init(machine: RDMachine, identity: RDIdentity) {
         self.machine = machine
         self.identity = identity
@@ -60,7 +62,7 @@ class MenubarStatusItem: NSObject, Identifiable {
             .padding(.horizontal, 15)
             .padding(.bottom, 15)
         }
-        .frame(width: 400, height: 800)
+        .frame(width: 350, height: 700)
         buildPopover.contentViewController = NSHostingController(rootView: contentView)
 
         eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown], handler: mouseEventHandler)
@@ -133,6 +135,7 @@ class MenubarStatusItem: NSObject, Identifiable {
 
     func closeThisItem() {
         popover.close()
+        representedShell?.requestDisconnectAndWait()
         loopContinue = false
         eventMonitor = nil
         NSStatusBar.system.removeStatusItem(statusItem)

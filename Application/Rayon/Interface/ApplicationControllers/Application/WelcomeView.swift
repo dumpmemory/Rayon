@@ -81,7 +81,7 @@ struct WelcomeView: View {
                         beginQuickConnect()
                     } label: {
                         Circle()
-                            .foregroundColor(.orange)
+                            .foregroundColor(.accentColor)
                             .overlay(
                                 Image(systemName: "arrow.forward")
                                     .font(.system(size: 14, weight: .semibold, design: .rounded))
@@ -119,7 +119,7 @@ struct WelcomeView: View {
         .background(StarLinkView().ignoresSafeArea())
         .background(
             ColorfulView(
-                colors: [Color.orange, Color.yellow],
+                colors: [Color.accentColor],
                 colorCount: 4
             )
             .ignoresSafeArea()

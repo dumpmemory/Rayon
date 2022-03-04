@@ -13,6 +13,8 @@ struct SidebarView: View {
     @SceneStorage("sidebar.selection") var sidebarSelection: String = ""
     @State var selection: NavigationItem? = nil
 
+    @StateObject var sessionManager = RDSessionManager.shared
+
     @State var openServerSelector: Bool = false
 
     enum NavigationItem: String {
@@ -54,7 +56,7 @@ struct SidebarView: View {
                 .tag(NavigationItem.snippets)
             }
             Section("Session") {
-                if store.remoteSessions.count == 0 {
+                if sessionManager.remoteSessions.count == 0 {
                     Button {} label: {
                         HStack {
                             Label("No Session", systemImage: "app.dashed")
@@ -65,8 +67,7 @@ struct SidebarView: View {
                     .buttonStyle(PlainButtonStyle())
                     .expended()
                 } else {
-                    ForEach(store.remoteSessions) { session in
-
+                    ForEach(sessionManager.remoteSessions) { session in
                         Button {
                             store.requestSessionInterface(session: session.id)
                         } label: {
@@ -98,7 +99,7 @@ struct SidebarView: View {
                                 guard confirmed else {
                                     return
                                 }
-                                for session in store.remoteSessions {
+                                for session in sessionManager.remoteSessions {
                                     store.terminateSession(with: session.id)
                                 }
                             }
@@ -251,22 +252,7 @@ struct SidebarView: View {
                 .expended()
                 .contextMenu {
                     Button {
-                        for target in store.machineGroup.machines where target.id == machine {
-                            guard let id = target.associatedIdentity,
-                                  let rid = UUID(uuidString: id)
-                            else {
-                                UIBridge.presentError(with: "Username for this record was not found")
-                                return
-                            }
-                            let oid = store.identityGroup[rid]
-                            guard oid.username.count > 0 else {
-                                UIBridge.presentError(with: "Username for this record was not found")
-                                return
-                            }
-                            UIBridge.sendPasteboard(str: "ssh \(oid.username)@\(target.remoteAddress) -p \(target.remotePort)")
-                            return
-                        }
-                        UIBridge.presentError(with: "Data not found")
+                        UIBridge.sendPasteboard(str: store.machineGroup[machine].getCommand())
                     } label: {
                         Label("Copy Command", systemImage: "doc.on.doc")
                     }

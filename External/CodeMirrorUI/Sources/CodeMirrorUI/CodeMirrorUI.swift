@@ -58,6 +58,7 @@ class CodeEditorCore: CodeEditor {
             }
             associatedWebView.layer?.backgroundColor = .clear
         #else
+            associatedWebView.isOpaque = false
             associatedWebView.backgroundColor = UIColor.clear
             associatedWebView.scrollView.backgroundColor = UIColor.clear
         #endif

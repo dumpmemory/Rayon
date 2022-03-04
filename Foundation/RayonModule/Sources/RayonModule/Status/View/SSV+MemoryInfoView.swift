@@ -41,12 +41,6 @@ public extension ServerStatusViews {
                     )
                 }
                 Divider()
-                HStack {
-                    Text("Active & Inactive is not counted as free memory.")
-                        .font(.system(size: 8, weight: .regular, design: .monospaced))
-                    Spacer()
-                }
-                .opacity(0.5)
                 LazyVGrid(columns:
                     [
                         GridItem(.flexible()),
@@ -78,6 +72,13 @@ public extension ServerStatusViews {
                             Spacer()
                         }
                     })
+                Divider()
+                HStack {
+                    Text("Active & Inactive is not counted as free memory")
+                        .font(.system(size: 8, weight: .regular, design: .monospaced))
+                    Spacer()
+                }
+                .opacity(0.5)
             }
         }
 

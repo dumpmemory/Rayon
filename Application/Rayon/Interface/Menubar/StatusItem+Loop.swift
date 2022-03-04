@@ -78,6 +78,7 @@ extension MenubarStatusItem {
             .setupConnectionPort(NSNumber(value: Int(machine.remotePort) ?? 0))
             .setupConnectionTimeout(6)
             .requestConnectAndWait()
+        representedShell = shell
         identity.callAuthenticationWith(remote: shell)
         while loopContinue, shell.isConnected, shell.isAuthenicated {
             statusInfo.requestInfoAndWait(with: shell)

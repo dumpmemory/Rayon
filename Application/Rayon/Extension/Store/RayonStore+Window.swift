@@ -43,7 +43,7 @@ extension RayonStore {
             window.makeKeyAndOrderFront(nil)
             return
         }
-        for target in remoteSessions where target.id == session {
+        for target in RDSessionManager.shared.remoteSessions where target.id == session {
             let window = createNewWindowGroup(for: SessionView(session: target))
             storeSessionWindow(with: window, and: session)
             window.title = "Rayon Session"

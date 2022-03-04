@@ -7,6 +7,7 @@
 
 import Foundation
 import NSRemoteShell
+import RayonModule
 
 public extension RDSession {
     class Context: ObservableObject {

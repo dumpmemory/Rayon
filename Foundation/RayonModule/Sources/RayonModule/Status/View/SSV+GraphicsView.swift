@@ -36,42 +36,7 @@ public extension ServerStatusViews {
                 } else {
                     VStack(spacing: 12) {
                         ForEach(from.units) { element in
-                            VStack(spacing: 6) {
-                                HStack {
-                                    Image(systemName: "arrow.right")
-                                    Text(element.name)
-                                        .font(.system(size: 12, weight: .bold, design: .default))
-                                    Spacer()
-                                }
-                                HStack {
-                                    Text("GPU: " + gpuPercentDescription(for: element))
-                                        .font(.system(size: 10, weight: .regular, design: .monospaced))
-                                        .foregroundColor(element.utilization.gpu_util > 75 ? .red : .blue)
-                                    ColorizedProgressView(
-                                        colors: [
-                                            .init(color: .yellow, weight: element.utilization.gpu_util),
-                                            .init(color: .green, weight: 100 - element.utilization.gpu_util),
-                                        ]
-                                    )
-                                }
-                                HStack {
-                                    Text("RAM: " + ramPercentDescription(for: element))
-                                        .font(.system(size: 10, weight: .regular, design: .monospaced))
-                                        .foregroundColor((element.memory.used / element.memory.total) * 100 > 75 ? .red : .blue)
-                                    ColorizedProgressView(
-                                        colors: [
-                                            .init(color: .yellow, weight: element.memory.used),
-                                            .init(color: .green, weight: element.memory.free),
-                                        ]
-                                    )
-                                }
-                                HStack {
-                                    Text("vbios: " + element.vbios_version)
-                                    Text("fan: " + element.fan_speed)
-                                    Spacer()
-                                }
-                                .font(.system(size: 10, weight: .regular, design: .monospaced))
-                            }
+                            createView(for: element)
                         }
                     }
                 }
@@ -82,6 +47,55 @@ public extension ServerStatusViews {
                     Spacer()
                 }
                 .opacity(0.5)
+            }
+        }
+
+        func createView(for element: ServerStatus.SingleGraphicsInfo) -> some View {
+            VStack(spacing: 6) {
+                HStack {
+                    Image(systemName: "arrow.right")
+                    Text(element.name)
+                        .font(.system(size: 12, weight: .bold, design: .default))
+                    Spacer()
+                }
+                HStack {
+                    HStack(spacing: 0) {
+                        Text("GPU: " + gpuPercentDescription(for: element))
+                            .font(.system(size: 10, weight: .regular, design: .monospaced))
+                            .foregroundColor(element.utilization.gpu_util > 75 ? .red : .blue)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                    }
+                    .frame(width: 85)
+                    ColorizedProgressView(
+                        colors: [
+                            .init(color: .yellow, weight: element.utilization.gpu_util),
+                            .init(color: .green, weight: 100 - element.utilization.gpu_util),
+                        ]
+                    )
+                }
+                HStack {
+                    HStack(spacing: 0) {
+                        Text("RAM: " + ramPercentDescription(for: element))
+                            .font(.system(size: 10, weight: .regular, design: .monospaced))
+                            .foregroundColor((element.memory.used / element.memory.total) * 100 > 75 ? .red : .blue)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                    }
+                    .frame(width: 85)
+                    ColorizedProgressView(
+                        colors: [
+                            .init(color: .yellow, weight: element.memory.used),
+                            .init(color: .green, weight: element.memory.free),
+                        ]
+                    )
+                }
+                HStack {
+                    Text("vbios: " + element.vbios_version)
+                    Text("fan: " + element.fan_speed)
+                    Spacer()
+                }
+                .font(.system(size: 10, weight: .regular, design: .monospaced))
             }
         }
 

@@ -6,8 +6,10 @@
 //
 
 import AppKit
+import CodeMirrorUI
 import RayonModule
 import SwiftUI
+import XTerminalUI
 
 @main
 struct RayonApp: App {
@@ -24,6 +26,7 @@ struct RayonApp: App {
         }
         _ = RayonStore.shared
 //        requiresMenubarSetup = MenubarTool.shared.requireMenubarSetup()
+
         NSLog("static main completed")
     }
 
@@ -59,12 +62,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldTerminate(_: NSApplication) -> NSApplication.TerminateReply {
-        if RayonStore.shared.remoteSessions.count > 0 {
+        if RDSessionManager.shared.remoteSessions.count > 0 {
             UIBridge.requiresConfirmation(
                 message: "One or more session is running, do you want to close them all?"
             ) { confirmed in
                 guard confirmed else { return }
-                for session in RayonStore.shared.remoteSessions {
+                for session in RDSessionManager.shared.remoteSessions {
                     RayonStore.shared.terminateSession(with: session.id)
                 }
                 NSApp.terminate(nil)

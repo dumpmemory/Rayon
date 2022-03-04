@@ -52,4 +52,12 @@ public struct RDMachineGroup: Codable, Identifiable, Equatable {
             }
         }
     }
+
+    public mutating func delete(_ value: AssociatedType.ID) {
+        let index = machines
+            .firstIndex { $0.id == value }
+        if let index = index {
+            machines.remove(at: index)
+        }
+    }
 }

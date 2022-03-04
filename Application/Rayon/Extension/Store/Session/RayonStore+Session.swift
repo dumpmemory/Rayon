@@ -7,6 +7,7 @@
 
 import Foundation
 import NSRemoteShell
+import RayonModule
 
 public extension RayonStore {
     func beginTemporarySessionStartup(
@@ -124,7 +125,7 @@ public extension RayonStore {
                     self.storeRecentIfNeeded(from: machine.id)
                 }
                 mainActor {
-                    self.remoteSessions.append(session)
+                    RDSessionManager.shared.remoteSessions.append(session)
                     completionMainActor?(session.id)
                 }
             } else {
@@ -148,7 +149,7 @@ public extension RayonStore {
                     self.storeRecentIfNeeded(from: command)
                 }
                 mainActor {
-                    self.remoteSessions.append(session)
+                    RDSessionManager.shared.remoteSessions.append(session)
                     completionMainActor?(session.id)
                 }
             }
@@ -207,14 +208,14 @@ public extension RayonStore {
             )
             self.storeRecentIfNeeded(from: machine.id)
             mainActor {
-                self.remoteSessions.append(session)
+                RDSessionManager.shared.remoteSessions.append(session)
                 completionMainActor?(session.id)
             }
         }
     }
 
     func removeSessionFromStorage(with session: RDSession.ID) {
-        for (index, lookup) in remoteSessions.enumerated() {
+        for (index, lookup) in RDSessionManager.shared.remoteSessions.enumerated() {
             if lookup.id == session {
                 let context = lookup.context
                 let shell = context.shell
@@ -224,7 +225,7 @@ public extension RayonStore {
                     debugPrint("[request disconnect] done at \(shell.remoteHost):\(shell.remotePort)")
                     context.makeARCGreateAgain()
                 }
-                remoteSessions.remove(at: index)
+                RDSessionManager.shared.remoteSessions.remove(at: index)
                 return
             }
         }

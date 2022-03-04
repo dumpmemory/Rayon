@@ -40,4 +40,12 @@ public struct RDIdentityGroup: Codable, Identifiable {
             }
         }
     }
+
+    public mutating func delete(_ value: AssociatedType.ID) {
+        let index = identities
+            .firstIndex { $0.id == value }
+        if let index = index {
+            identities.remove(at: index)
+        }
+    }
 }

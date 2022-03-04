@@ -94,7 +94,10 @@ public struct RDIdentity: Codable, Identifiable, Equatable {
         }
         if remote.isAuthenicated {
             let date = Date()
-            debugPrint("Identity \(id) was used to authentic session at \(date.timeIntervalSinceNow)")
+            let fmt = DateFormatter()
+            fmt.dateStyle = .full
+            fmt.timeStyle = .full
+            debugPrint("Identity \(id) was used to authentic session at \(fmt.string(from: date))")
             mainActor {
                 RayonStore.shared.identityGroup[id].lastRecentUsed = date
             }

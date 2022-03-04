@@ -21,6 +21,8 @@ public extension RayonStore {
         case recentRecordEncrypted
         case machineRedacted
         case licenseAgreed
+        case timeout
+        case openInterfaceAutomatically
     }
 
     func readEncryptedDefault<T: Codable>(from key: UserDefaultKey, _: T) -> T? {

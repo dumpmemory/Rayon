@@ -64,7 +64,46 @@ public struct RDMachine: Codable, Identifiable, Equatable {
         return false
     }
 
+    public func shortDescription() -> String {
+        var build = name + " "
+        if let aid = associatedIdentity,
+           let uid = UUID(uuidString: aid)
+        {
+            let identity = RayonStore.shared.identityGroup[uid]
+            if !identity.username.isEmpty {
+                build += identity.username + "@"
+            }
+        }
+        build += remoteAddress
+        if remotePort != "22" {
+            build += " -p " + remotePort
+        }
+        if !comment.isEmpty {
+            build += " (" + comment + ")"
+        }
+        return build
+    }
+
     public func isNotPlaceholder() -> Bool {
         remoteAddress.count > 0 && remotePort.count > 0
+    }
+
+    public func getCommand() -> String {
+        var build = ""
+        if let id = associatedIdentity,
+           let rid = UUID(uuidString: id)
+        {
+            let oid = RayonStore.shared.identityGroup[rid]
+            if !oid.username.isEmpty {
+                build = "ssh \(oid.username)@\(remoteAddress)"
+            }
+        }
+        if build.isEmpty {
+            build = "ssh \(remoteAddress)"
+        }
+        if remotePort != "22" {
+            build += " -p " + remotePort
+        }
+        return build
     }
 }

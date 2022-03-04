@@ -52,6 +52,19 @@ public class RayonStore: ObservableObject {
         ) {
             recentRecord = read
         }
+        if let read = readEncryptedDefault(
+            from: .timeout,
+            timeout.self
+        ) {
+            timeout = read
+        }
+        if timeout <= 0 { timeout = 5 }
+        if let read = readEncryptedDefault(
+            from: .openInterfaceAutomatically,
+            openInterfaceAutomatically.self
+        ) {
+            openInterfaceAutomatically = read
+        }
     }
 
     public static let shared = RayonStore()
@@ -63,13 +76,31 @@ public class RayonStore: ObservableObject {
     }
 
     @Published public var globalProgressInPresent: Bool = false
-    var globalProgressCount: Int = 0 {
+    public var globalProgressCount: Int = 0 {
         didSet {
             if globalProgressCount == 0 {
                 globalProgressInPresent = false
             } else {
                 globalProgressInPresent = true
             }
+        }
+    }
+
+    @Published public var timeout: Int = 0 {
+        didSet {
+            storeEncryptedDefault(
+                to: .timeout,
+                with: timeout
+            )
+        }
+    }
+
+    @Published public var openInterfaceAutomatically: Bool = true {
+        didSet {
+            storeEncryptedDefault(
+                to: .openInterfaceAutomatically,
+                with: openInterfaceAutomatically
+            )
         }
     }
 
@@ -149,6 +180,4 @@ public class RayonStore: ObservableObject {
             )
         }
     }
-
-    @Published public var remoteSessions: [RDSession] = []
 }

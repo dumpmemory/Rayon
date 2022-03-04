@@ -15,6 +15,6 @@ let package = Package(
         .target(
             name: "XMLCoder",
             dependencies: []
-        )
+        ),
     ]
 )
